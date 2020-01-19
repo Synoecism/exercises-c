@@ -1,3 +1,19 @@
+/*
+File name: exerc_x_y.c (or cpp)
+Date: 2020-01-19
+Group nr 1
+Members that contributeto the solutions
+Emanuel Dellsén
+Niklas Möller
+Karl Westgårdh 
+
+Member not present at demonstration time:
+
+Demonstration code: [
+<Ass code 1-4> <abc>]Important
+No code no exercise points!
+*/
+
 #include <stdio.h>
 #include <stdbool.h> //import of boolean type
 #include <ctype.h> // import of isdigit
@@ -8,8 +24,8 @@ int main()
     printf("Please select an option between 1-5! \n");
     while(!x)
     {
+        //wait for input
         char ch = getchar();
-
         x = true;
 
         switch(ch){
@@ -29,6 +45,10 @@ int main()
                 printf("\n Euripides: Courage may be taught as a child is taught to speak. \n");
                 break;            
             default:
+                //used to consume \n 
+                getchar();
+
+                //return to while
                 printf("\n Please enter a valid choice between 1-5. \n");
                 x = false;
                 break;    
