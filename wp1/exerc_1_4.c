@@ -82,7 +82,7 @@ void start()
 
     //delaring MAX and number guesses
     int max_nr_of_guesses = 10;
-    int nr_of_guesses = 1;
+    int nr_of_guesses = 0;
 
     //uses time to seed random generator
     srand(time(0));
@@ -90,11 +90,20 @@ void start()
     //generate random number
     int answer = (rand() % (upper - lower + 1)) + lower;
 
+    printf("answer %d",answer);
+
     //game continues until guess is equal to random number or max guesses is reached
     for (; nr_of_guesses <= max_nr_of_guesses; nr_of_guesses++)
     {
         //wait for input
-        printf("Take a guess... \n");
+        if (nr_of_guesses < 1)
+        {
+            printf("Take a guess... \n");
+        }
+        else
+        {
+            printf("Take another guess, you've guessed %d amount of times \n",nr_of_guesses);
+        }
         char guess[100];
         fgets(guess, 100, stdin);
 
@@ -153,7 +162,7 @@ int getValue(char str[])
 
     //https://www.tutorialspoint.com/c_standard_library/c_function_strtol.htm
     //calculates value of char array to integer
-    int value_of_string = strtol(str,&ptr,10);
+    int value_of_string = strtol(str, &ptr, 10);
 
     return value_of_string;
 }
