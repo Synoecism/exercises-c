@@ -45,6 +45,7 @@ int main()
 
         if (i < 1)
         {
+            //first letter should be uppercase
             correct = toupper(str[i]);
             if (correct > upper_level)
             {
@@ -57,6 +58,7 @@ int main()
         }
         else
         {
+            //rest of letters in word should be lowercase
             correct = tolower(str[i]);
             if (correct > lower_level)
             {
