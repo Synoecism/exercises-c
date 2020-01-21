@@ -2,7 +2,7 @@
 File name: exerc_x_y.c (or cpp)
 Date: 2020-01-19
 Group nr 1
-Members that contributeto the solutions
+Members that contribute to the solutions
 Emanuel Dellsén
 Niklas Möller
 Karl Westgårdh 
@@ -89,8 +89,6 @@ void start()
 
     //generate random number
     int answer = (rand() % (upper - lower + 1)) + lower;
-
-    printf("answer %d",answer);
 
     //game continues until guess is equal to random number or max guesses is reached
     for (; nr_of_guesses <= max_nr_of_guesses; nr_of_guesses++)
