@@ -12,7 +12,7 @@ int main(void) {
 do{
 
     printf("Enter an integer between 1 - 5:\n"); 
-    scanf("%d", &num); 
+    scanf("%d", &num); //Scan the integer and locate at the address-of number
   
     if(num == 1){
         printf("One is the amount of noses at your face\n");
