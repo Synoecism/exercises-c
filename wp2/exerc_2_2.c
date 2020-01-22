@@ -46,8 +46,8 @@ int main()
 
     for (int i = 0; i < n; i++)
     {
-        printf("Integer value of index %d %d \n", i, array[i]);
-        printf("Double value of index %d %lf \n", i, (double) array[i]);
+        printf("Integer value of index %d: %d \n", i, array[i]);
+        printf("Double value of index %d: %lf \n", i, (double) array[i]);
     }
 
     return 0;
