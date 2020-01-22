@@ -50,7 +50,7 @@ do{
         }
 
         guessedNumber = atoi(buf); // Using the buffer and atoi ("Anything TO Integer")
-    } while ((guessedNumber == 0) || (guessedNumber > 100) || (guessedNumber < 1)); // Returns 0 if the input was not a valid number. Checks the interval 1 - 100,
+    } while ((guessedNumber > 100) || (guessedNumber < 1)); // Returns 0 if the input was not a valid number. Checks the interval 1 - 100,
 
 numberOfGuesses++; //Increment the number of guesses
 
