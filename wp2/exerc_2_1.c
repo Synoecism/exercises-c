@@ -29,13 +29,14 @@ int main() {
     //wait for input
     fgets(from,BUFFERSIZE,stdin);
 
+    //SCENARIO A)
     //copy of string (to,from)
     char copy[BUFFERSIZE];
     strcpy(copy,from);
 
     printf("\n Read and copied by use of strcpy() !: %s \n",copy);
 
-    //another copy
+    //SCENARIO B)
     char to[BUFFERSIZE];
     copyString(to,from);
 
