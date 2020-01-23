@@ -13,10 +13,3 @@ Demonstration code: [
 <Ass code 1-4> <abc>]Important
 No code no exercise points!
 */
-
-#include <stdio.h>
-
-int main() {
-
-    return 0;
-}
