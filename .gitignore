@@ -14,7 +14,7 @@
 *.sm
 
 # exefiles
-.exe
+*.exe
 
 # outfiles
 *.out
