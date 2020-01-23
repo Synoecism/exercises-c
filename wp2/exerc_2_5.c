@@ -64,11 +64,14 @@ void draw_histogram(int *freq)
     for (i = 0; i < MAXNUMBER; i++)
     {
         j = freq[i];
-        printf("%d\t", i);
-        for (k = 0; k <= j; k++)
+        if (j > 0)
         {
-            printf("x");
+            printf("%d\t", i);
+            for (k = 0; k <= j; k++)
+            {
+                printf("x");
+            }
+            printf("\n");
         }
-        printf("\n");
     }
 }
