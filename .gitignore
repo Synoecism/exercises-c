@@ -13,6 +13,9 @@
 *.class
 *.sm
 
+# exefiles
+.exe
+
 # Ignore `bin` dir
 bin/
 # or
