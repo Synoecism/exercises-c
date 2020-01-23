@@ -17,7 +17,7 @@ No code no exercise points!
 #include <stdio.h>
 #include <string.h>
 
-#define BUFFERSIZE 20
+#define BUFFERSIZE 21 //Buffer is 21 to enable input of 20 char
 void copyString();
 
 // to read from txt instead of user input in terminal, use < myfile.txt after execution of gcc
@@ -38,7 +38,7 @@ int main() {
 
     //SCENARIO B)
     char to[BUFFERSIZE];
-    copyString(to,from);
+    copyString(&to,&from); //Passing the address of the variables and not their values
 
     printf("\n Read and copied by use of copyString() !: %s \n",to);
 
@@ -52,4 +52,7 @@ void copyString(char *to, char *from){
     for(int i = 0; i < len; i++){
         to[i] = from[i];
     }
+
+    to[len] = '\0'; //Adding \0 to cut off the string
 }
+
