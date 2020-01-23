@@ -16,6 +16,9 @@
 # exefiles
 .exe
 
+# outfiles
+.out
+
 # Ignore `bin` dir
 bin/
 # or

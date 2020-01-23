@@ -30,8 +30,10 @@ int main()
 
     for (int i = 0; i < n; i++)
     {
-        printf("Integer value of index %d: %d \n", i, array[i]);
-        printf("Double value of index %d: %lf \n", i, (double) array[i]);
+        int *pt = &array[i]; //Creating a pointer that points to the address where the value in the index of the array is stored 
+
+        printf("Integer value of index %d: %d \n", i, *pt); //Printing the value that the pointer points to
+        printf("Double value of index %d: %4.2lf \n", i, (double) *pt);
     }
 
     return 0;
