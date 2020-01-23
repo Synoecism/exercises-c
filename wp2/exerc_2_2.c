@@ -33,7 +33,7 @@ int main()
         int *pt = &array[i]; //Creating a pointer that points to the address where the value in the index of the array is stored 
 
         printf("Integer value of index %d: %d \n", i, *pt); //Printing the value that the pointer points to
-        printf("Double value of index %d: %lf \n", i, (double) *pt);
+        printf("Double value of index %d: %4.2lf \n", i, (double) *pt);
     }
 
     return 0;
