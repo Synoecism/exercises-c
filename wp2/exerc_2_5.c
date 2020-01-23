@@ -1,5 +1,4 @@
 #include <stdio.h>
-<<<<<<< HEAD
 #include <stdlib.h>
 #include <time.h>
 
@@ -72,10 +71,4 @@ void draw_histogram(int *freq)
         }
         printf("\n");
     }
-=======
-
-int main() {
-
-    return 0;
->>>>>>> e0e700ae5dd09daf57c58383baf3a43824e3b115
 }
