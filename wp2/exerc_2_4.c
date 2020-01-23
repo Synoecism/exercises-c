@@ -18,7 +18,7 @@ No code no exercise points!
 #include <string.h>
 #include <stdbool.h>
 
-#define MAX 100
+#define MAX 101
 
 int main()
 {

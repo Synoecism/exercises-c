@@ -35,7 +35,7 @@ int main()
     len = strlen(str);
 
     //header for the program
-    printf("V - A - EV - A \n");
+    printf("V\tA\tEV\tA\t\n");
 
     //len-1 to not print "enter" which has ascii-value 10
     for (int i = 0; i < len - 1; i++)
@@ -70,7 +70,7 @@ int main()
             }
         }
         word[i] = encryptvalue;
-        printf("%c - %d - %c - %d \n", correct, correct, encryptvalue, encryptvalue);
+        printf("%c\t%d\t%c\t%d\n", correct, correct, encryptvalue, encryptvalue);
     }
     printf("\n Word is: %s \n",word);
     return 0;

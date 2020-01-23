@@ -15,8 +15,18 @@ No code no exercise points!
 */
 
 #include <stdio.h>
+#define MAX 100
 
-int main() {
+int main()
+{
+    int n = 0;
+    char c;
+    char text[MAX];
+    while((c = getchar()) !='\n'){
+        text[n]=c;
+        n++;
+    };
+    text[n] ='\0';
 
     return 0;
 }
