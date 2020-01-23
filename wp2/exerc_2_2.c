@@ -8,11 +8,11 @@
 
 int main()
 {
-
     int array[MAX];
+    int n;
 
     //get array size in indicies (not byte size)
-    int n = sizeof(array) / sizeof(array[0]);
+    n = sizeof(array) / sizeof(array[0]);
 
     //uses time to seed random generator
     srand(time(0));
