@@ -7,15 +7,18 @@
 int main()
 {
     char word[MAX];
+    int len;
+    int j;
+    bool value;
 
     //get input from user
     fgets(word, MAX, stdin);
 
     //get length of word (ignore enter by -1)
-    int len = strlen(word) - 1;
-    int j = len - 1;
+    len = strlen(word) - 1;
+    j = len - 1;
 
-    bool value = true;
+    value = true;
 
     for (int i = 0; i < j; i++)
     {
