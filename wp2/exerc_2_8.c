@@ -4,11 +4,10 @@
  *  Author  : ...
  */
 
-#include<stdio.h>
-#include<stdlib.h>
-#include<stdbool.h>
-#include<time.h>     
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <time.h>
 
 #define MAX_COINS 13
 
@@ -35,7 +34,7 @@ int human_choice(int pile);
  * in: Values HUMAN or COMPUTER.
  * out:
  */
-void write_winner( int player );
+void write_winner(int player);
 
 /*
  * play_again
@@ -67,7 +66,7 @@ int computer_choice(int pile);
  * in:  actual player
  * out: next player
  */
-int toggle( int player );
+int toggle(int player);
 
 /* --------------------- Utilities -------------*/
 void clear_stdin();
@@ -79,49 +78,51 @@ void clear_stdin();
  ***************************************************/
 int main()
 {
-  int pile,			/* This is how many coins we have */
-    player,			/* Who is playing? */
-    n_coins;			/* Number of coins taken */
-  
-  srand( time(0) );		/* Setup random */
+    int pile,    /* This is how many coins we have */
+        player,  /* Who is playing? */
+        n_coins; /* Number of coins taken */
 
-  printf("V�lkommen till NIM by ...");
- 
- 
-  
-  pile = MAX_COINS;		/* Set start values (= init) */
-  player = HUMAN;
+    srand(time(0)); /* Setup random */
 
-  /* 
+    printf("V�lkommen till NIM by ...");
+
+    pile = MAX_COINS; /* Set start values (= init) */
+    player = HUMAN;
+
+    /* 
    *  Program main loop 
    */
-  while( true ) {	
+    while (true)
+    {
 
-    printf("Det ligger %d  mynt i h�gen\n", pile );
-    
-    if( player == HUMAN ){
-      n_coins = human_choice(pile);      
-    }else{
-      n_coins = computer_choice(pile);
-      printf("- Jag tog %d\n", n_coins);      
+        printf("Det ligger %d  mynt i h�gen\n", pile);
+
+        if (player == HUMAN)
+        {
+            n_coins = human_choice(pile);
+        }
+        else
+        {
+            n_coins = computer_choice(pile);
+            printf("- Jag tog %d\n", n_coins);
+        }
+        pile -= n_coins;
+        player = toggle(player);
+
+        if (pile <= 1)
+        {
+            break;
+        }
     }
-    pile -= n_coins;
-    player = toggle( player );
-      
-    if( pile <= 1 ){
-      break;
-    }
-  }
-  /*
+    /*
    * end main loop
    */
-   
-  write_winner( player );   
 
- 
-  printf("Avslutat\n");
+    write_winner(player);
 
-  return 0;
+    printf("Avslutat\n");
+
+    return 0;
 }
 
 /******************************************************
@@ -130,12 +131,12 @@ int main()
  * 
  ******************************************************/
 
-
 void clear_stdin()
 {
-  while( getchar() != '\n' ){
-    ;
-  }
+    while (getchar() != '\n')
+    {
+        ;
+    }
 }
 
 int human_choice(int pile)
@@ -152,29 +153,38 @@ int human_choice(int pile)
         }
 
         humanChoice = atoi(buf); // Using the buffer and atoi ("Anything TO Integer")
+<<<<<<< HEAD
     } while (humanChoice > 3 || humanChoice < 1); // Returns 0 if the input was not a valid number
 
 
+=======
+    } while (humanChoice != 0);  // Returns 0 if the input was not a valid number
+>>>>>>> 2a94f598e8318af703e54b95d28c6e88e3613523
 
+    return 0;
 }
 
 int computer_choice(int pile)
 {
-
+    return 0;
 }
 
-void write_winner(int player )
+void write_winner(int player)
 {
-
 }
 
 int play_again()
 {
-
+    return 0;
 }
 
-int toggle( int player )
+int toggle(int player)
 {
+<<<<<<< HEAD
 
 }
 
+=======
+    return 0;
+}
+>>>>>>> 2a94f598e8318af703e54b95d28c6e88e3613523
