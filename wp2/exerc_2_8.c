@@ -71,6 +71,8 @@ int toggle(int player);
 /* --------------------- Utilities -------------*/
 void clear_stdin();
 
+void resetGame();
+
 /***************************************************
  *
  *    MAIN
@@ -79,24 +81,25 @@ void clear_stdin();
 int main()
 {
 
-    int pile,    /* This is how many coins we have */
-        player,  /* Who is playing? */
-        n_coins; /* Number of coins taken */
+    int pile,                   /* This is how many coins we have */
+        player,                 /* Who is playing? */
+        n_coins, playAgain = 0; /* Number of coins taken */
 
     srand(time(0)); /* Setup random */
 
-    printf("V�lkommen till NIM by ...");
+    printf("Welcome to play the game NIM. Created by Niklas, Karl and Emanuel\n");
 
     pile = MAX_COINS; /* Set start values (= init) */
     player = HUMAN;
 
-    /* 
+/* 
    *  Program main loop 
    */
+START:
     while (true)
     {
 
-        printf("Det ligger %d  mynt i h�gen\n", pile);
+        printf("There are %d coins in the pile \n", pile);
 
         if (player == HUMAN)
         {
@@ -105,7 +108,7 @@ int main()
         else
         {
             n_coins = computer_choice(pile);
-            printf("- Jag tog %d\n", n_coins);
+            printf("Me, the computer, took %d\n", n_coins);
         }
         pile -= n_coins;
         player = toggle(player);
@@ -119,12 +122,24 @@ int main()
    * end main loop
    */
 
-
     write_winner(player);
 
-    printf("Avslutat\n");
+    playAgain = play_again();
 
-    return 0;
+    if (playAgain == 1)
+    {
+        pile = MAX_COINS;
+        player = HUMAN;
+        // the new magic
+        goto START;
+    }
+    else
+    {
+
+        printf("We have played enough for today. Get some fresh air \n");
+
+        return 0;
+    }
 }
 
 /******************************************************
@@ -143,6 +158,7 @@ void clear_stdin()
 
 int human_choice(int pile)
 {
+
     //Input checking from http://sekrit.de/webdocs/c/beginners-guide-away-from-scanf.html
     //The loop prevents undefined behaviour if the input is a char. Also prevents buffer overflow.
     do
@@ -156,32 +172,81 @@ int human_choice(int pile)
 
         humanChoice = atoi(buf); // Using the buffer and atoi ("Anything TO Integer")
 
-    } while (humanChoice != 0);  // Returns 0 if the input was not a valid number
+        //check so that the input is not greater then the pile
+        if (humanChoice > pile)
+        {
+            humanChoice = 0;
+            printf("You cannot take more coins that there are in the pile! Try again with more than %d\n", pile);
+        }
 
-    return 0;
+    } while (humanChoice > 3 || humanChoice < 1); // Returns 0 if the input was not a valid number
+
+    return humanChoice;
 }
 
 int computer_choice(int pile)
 {
-    return 0;
+    int computerChoice = 0;
+    if (pile > 4)
+    {
+        computerChoice = (rand() % (3 - 1 + 1)) + 1;
+    }
+    else if (pile == 1)
+    {
+        computerChoice = 1;
+    }
+    else
+    {
+        computerChoice = pile - 1;
+    }
+    return computerChoice;
 }
 
 void write_winner(int player)
 {
-    if(player == HUMAN){
-        printf("And the winner is you! ");
+    if (player == COMPUTER)
+    {
+        printf("And the winner is you!\n");
     }
-    if(player == COMPUTER){
-        printf("The computer AI defeated you, better luck next time!");
+    if (player == HUMAN)
+    {
+        printf("The computer AI defeated you, better luck next time!\n");
     }
-
 }
 
 int play_again()
 {
+
+    printf("Do you want to play again? write 'y' for yes or 'n' for no...\n");
+    char playAgainChoice = getchar();
+    clear_stdin();
+
+    if (playAgainChoice == 'y')
+    {
+
+        return 1;
+    }
+    else if (playAgainChoice == 'n')
+    {
+        return 0;
+    }
+    else
+    {
+        printf("Please write 'y' for yes or 'n' for no!\n");
+        play_again();
+    }
     return 0;
 }
 
 int toggle(int player)
 {
+    if (player == HUMAN)
+    {
+        return COMPUTER;
+    }
+    else
+    {
+        return HUMAN;
+    }
 }
+
