@@ -159,3 +159,10 @@ int toggle( int player )
 {
 
 }
+=======
+#include <stdio.h>
+
+int main() {
+
+    return 0;
+}
