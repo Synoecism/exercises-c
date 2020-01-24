@@ -5,15 +5,12 @@
 #include <string.h>
 #include <math.h>
 
-#define CTLDIGIT_PLACE 9
-
 void readPersnr(char *person);
 int controlDigit(const char *persnr);
-int personalNumber[20];
 bool isIntegers(char *buf);
 bool isPnr(char *buf);
 int charToInt(char c);
-char buf[1024]; // use 1KiB buffer just to be sure
+char buf[9];
 
 //Input checking from http://sekrit.de/webdocs/c/beginners-guide-away-from-scanf.html
 
@@ -38,12 +35,7 @@ void readPersnr(char *person)
         {
             if (isPnr(person))
             {
-                ctrlDigit = controlDigit(person);
-                printf("%c", ctrlDigit);
-                //add controldigit to personnummer
-                person[CTLDIGIT_PLACE] = ctrlDigit;
-
-                printf("This is the personnummer: %s\n", person);
+                printf("This is a correct personnummer: %s\n", person);
             }
             else
             {
@@ -53,8 +45,15 @@ void readPersnr(char *person)
         }
         else
         {
-            //do nothing - return to while
-            printf("Not valid input. Please only use integers.\n");
+            if (person[0] == 'q')
+            {
+                printf("Exiting program... ;) \n");
+            }
+            else
+            {
+                //do nothing - return to while
+                printf("Not valid input. Please only use integers.\n");
+            }
         }
     }
 }
@@ -62,13 +61,21 @@ void readPersnr(char *person)
 int controlDigit(const char *persnr)
 {
     int sum;
-    int ctrldigit;
+    float ctrldigit;
     int i;
-    int len = strlen(persnr) - 1;
-    int multiplier = 1;
+    int len;
+    int multiplier;
+
+    // set sum to 0 in the beginning - important!
+    sum = 0;
+
+    //len -2 to not include controldigit while validating controldigit
+    len = strlen(persnr) - 2;
+    multiplier = 1;
 
     for (i = 0; i < len; i++)
     {
+
         if (multiplier == 2)
         {
             multiplier = multiplier / 2;
@@ -78,31 +85,32 @@ int controlDigit(const char *persnr)
             multiplier = multiplier * 2;
         }
 
-        /*
-        THE FOLLOWING LINES IS NOT WORKING CORRECTLY
-        */
+        int f = (charToInt(persnr[i]) * multiplier);
 
         //check if value is higher then 9, if true, add to sum as seperate digits (ie 13 -> 1+3)
-        if ((charToInt(persnr[i]) * multiplier) > 9)
+        if (f > 9)
         {
-            printf("\n%d", (charToInt(persnr[i]) * multiplier) - 9);
-            sum = sum + ((charToInt(persnr[i]) * multiplier) - 9);
+            sum = sum + (f - 9);
         }
         else
         {
-            sum = sum + (charToInt(persnr[i]) * multiplier);
+            sum = sum + f;
         }
     }
 
     //make sum into double to be able to use ceil() (23 / 10 -> 2.3)
-    ctrldigit = (double)sum / 10;
+    ctrldigit = (float)sum / 10;
+
     //round up to nearest integer (2.3 -> 3.0)
-    ctrldigit = ceil(sum);
+    ctrldigit = ceil(ctrldigit);
+
     //multiply and cast to integer (3.0 -> 30)
-    ctrldigit = (int)sum * 10;
+    ctrldigit = ctrldigit * 10;
+
+    int final = ((int)ctrldigit) - sum;
 
     //return ctrldigit which is rounded up sum value (30 - 23 = 7)
-    return ctrldigit - sum;
+    return final;
 }
 
 bool isIntegers(char *buf)
@@ -130,8 +138,8 @@ bool isPnr(char *buf)
     int len;
 
     len = strlen(buf) - 1;
-    //check if 9 digits
-    if (len != 9)
+    //check if 10 digits (YYYYMMDDXXXC)
+    if (len != 10)
     {
         return false;
     }
@@ -155,15 +163,23 @@ bool isPnr(char *buf)
         {
             //check days in relation to months
             if ((dd >= 1 && dd <= 31) && (mm == 1 || mm == 3 || mm == 5 || mm == 7 || mm == 8 || mm == 10 || mm == 12))
-                printf("Date is valid.\n");
+            {
+                //Date is valid
+            }
             else if ((dd >= 1 && dd <= 30) && (mm == 4 || mm == 6 || mm == 9 || mm == 11))
-                printf("Date is valid.\n");
-            //check for dates in february
+            {
+                //Date is valid
+            }
             else if ((dd >= 1 && dd <= 28) && (mm == 2))
-                printf("Date is valid.\n");
-            //check for leap year
+            {
+                //check for dates in february
+                //Date is valid
+            }
             else if (dd == 29 && mm == 2 && (yy % 400 == 0 || (yy % 4 == 0 && yy % 100 != 0)))
-                printf("Date is valid.\n");
+            {
+                //check for leap year
+                //Date is valid
+            }
             else
             {
                 printf("Date is invalid.\n");
@@ -181,7 +197,17 @@ bool isPnr(char *buf)
         printf("Year is not valid.\n");
         return false;
     }
-    return true;
+
+    if (controlDigit(buf) == charToInt(buf[9]))
+    {
+        //control digit is correct -> pnr is correct
+        return true;
+    }
+    else
+    {
+        //control digit not correct
+        return false;
+    }
 }
 
 int charToInt(char c)
