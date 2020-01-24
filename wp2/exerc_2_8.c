@@ -82,7 +82,7 @@ int main()
   
   srand( time(0) );		/* Setup random */
 
-  printf("V�lkommen till NIM by ...");
+  printf("Welcome to NIM by ...");
  
  
   
@@ -94,13 +94,13 @@ int main()
    */
   while( true ) {	
 
-    printf("Det ligger %d  mynt i h�gen\n", pile );
+    printf("There are %d  coins in the pile \n", pile );
     
     if( player == HUMAN ){
       n_coins = human_choice(pile);      
     }else{
       n_coins = computer_choice(pile);
-      printf("- Jag tog %d\n", n_coins);      
+      printf("- Me, the computer, took %d\n", n_coins);      
     }
     pile -= n_coins;
     player = toggle( player );
@@ -116,7 +116,7 @@ int main()
   write_winner( player );   
 
  
-  printf("Avslutat\n");
+  printf("Finished\n");
 
   return 0;
 }
@@ -138,6 +138,18 @@ void clear_stdin()
 int human_choice(int pile)
 {
 
+    /* int coinsTaken = 0;
+
+    coinsTaken = getchar();
+
+    if(coinsTaken == '1' || '2' || '3' && coinsTaken <= pile){
+
+return coinsTaken;
+    } else {
+        return 0;
+    }
+     */
+
 }
 
 int computer_choice(int pile)
@@ -147,6 +159,12 @@ int computer_choice(int pile)
 
 void write_winner(int player )
 {
+    if(player == HUMAN){
+        printf("And the winner is you! ");
+    }
+    if(player == COMPUTER){
+        printf("The computer AI defeated you, better luck next time!");
+    }
 
 }
 
@@ -158,11 +176,4 @@ int play_again()
 int toggle( int player )
 {
 
-}
-=======
-#include <stdio.h>
-
-int main() {
-
-    return 0;
 }
