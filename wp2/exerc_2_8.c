@@ -15,6 +15,9 @@
 const int HUMAN = 0;
 const int COMPUTER = 1;
 
+int humanChoice;
+char buf[1024];
+
 /* ------------- IO --------------- */
 
 /*
@@ -137,6 +140,21 @@ void clear_stdin()
 
 int human_choice(int pile)
 {
+
+    //The loop prevents undefined behaviour if the input is a char. Also prevents buffer overflow.
+    do
+    {
+        printf("Enter a choice between 1 - 3: \n");
+        if (!fgets(buf, 1024, stdin)) //reads input with fgets(), usidng standard input stdin. Checks we don't overflow buffer
+        {
+            // reading input failed, give up:
+            return 1;
+        }
+
+        humanChoice = atoi(buf); // Using the buffer and atoi ("Anything TO Integer")
+    } while (humanChoice != 0); // Returns 0 if the input was not a valid number
+
+
 
 }
 
