@@ -4,16 +4,18 @@
  *  Author  : ...
  */
 
-#include<stdio.h>
-#include<stdlib.h>
-#include<stdbool.h>
-#include<time.h>     
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <time.h>
 
 #define MAX_COINS 13
 
 const int HUMAN = 0;
 const int COMPUTER = 1;
+
+int humanChoice;
+char buf[1024];
 
 /* ------------- IO --------------- */
 
@@ -32,7 +34,7 @@ int human_choice(int pile);
  * in: Values HUMAN or COMPUTER.
  * out:
  */
-void write_winner( int player );
+void write_winner(int player);
 
 /*
  * play_again
@@ -64,7 +66,7 @@ int computer_choice(int pile);
  * in:  actual player
  * out: next player
  */
-int toggle( int player );
+int toggle(int player);
 
 /* --------------------- Utilities -------------*/
 void clear_stdin();
@@ -76,49 +78,53 @@ void clear_stdin();
  ***************************************************/
 int main()
 {
-  int pile,			/* This is how many coins we have */
-    player,			/* Who is playing? */
-    n_coins;			/* Number of coins taken */
-  
-  srand( time(0) );		/* Setup random */
 
-  printf("Welcome to NIM by ...");
- 
- 
-  
-  pile = MAX_COINS;		/* Set start values (= init) */
-  player = HUMAN;
+    int pile,    /* This is how many coins we have */
+        player,  /* Who is playing? */
+        n_coins; /* Number of coins taken */
 
-  /* 
+    srand(time(0)); /* Setup random */
+
+    printf("V�lkommen till NIM by ...");
+
+    pile = MAX_COINS; /* Set start values (= init) */
+    player = HUMAN;
+
+    /* 
    *  Program main loop 
    */
-  while( true ) {	
+    while (true)
+    {
 
-    printf("There are %d  coins in the pile \n", pile );
-    
-    if( player == HUMAN ){
-      n_coins = human_choice(pile);      
-    }else{
-      n_coins = computer_choice(pile);
-      printf("- Me, the computer, took %d\n", n_coins);      
+        printf("Det ligger %d  mynt i h�gen\n", pile);
+
+        if (player == HUMAN)
+        {
+            n_coins = human_choice(pile);
+        }
+        else
+        {
+            n_coins = computer_choice(pile);
+            printf("- Jag tog %d\n", n_coins);
+        }
+        pile -= n_coins;
+        player = toggle(player);
+
+        if (pile <= 1)
+        {
+            break;
+        }
     }
-    pile -= n_coins;
-    player = toggle( player );
-      
-    if( pile <= 1 ){
-      break;
-    }
-  }
-  /*
+    /*
    * end main loop
    */
-   
-  write_winner( player );   
 
- 
-  printf("Finished\n");
 
-  return 0;
+    write_winner(player);
+
+    printf("Avslutat\n");
+
+    return 0;
 }
 
 /******************************************************
@@ -127,37 +133,40 @@ int main()
  * 
  ******************************************************/
 
-
 void clear_stdin()
 {
-  while( getchar() != '\n' ){
-    ;
-  }
+    while (getchar() != '\n')
+    {
+        ;
+    }
 }
 
 int human_choice(int pile)
 {
+    //Input checking from http://sekrit.de/webdocs/c/beginners-guide-away-from-scanf.html
+    //The loop prevents undefined behaviour if the input is a char. Also prevents buffer overflow.
+    do
+    {
+        printf("Enter a choice between 1 - 3: \n");
+        if (!fgets(buf, 1024, stdin)) //reads input with fgets(), usidng standard input stdin. Checks we don't overflow buffer
+        {
+            // reading input failed, give up:
+            return 1;
+        }
 
-    /* int coinsTaken = 0;
+        humanChoice = atoi(buf); // Using the buffer and atoi ("Anything TO Integer")
 
-    coinsTaken = getchar();
+    } while (humanChoice != 0);  // Returns 0 if the input was not a valid number
 
-    if(coinsTaken == '1' || '2' || '3' && coinsTaken <= pile){
-
-return coinsTaken;
-    } else {
-        return 0;
-    }
-     */
-
+    return 0;
 }
 
 int computer_choice(int pile)
 {
-
+    return 0;
 }
 
-void write_winner(int player )
+void write_winner(int player)
 {
     if(player == HUMAN){
         printf("And the winner is you! ");
@@ -170,10 +179,9 @@ void write_winner(int player )
 
 int play_again()
 {
-
+    return 0;
 }
 
-int toggle( int player )
+int toggle(int player)
 {
-
 }

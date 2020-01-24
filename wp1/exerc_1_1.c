@@ -29,7 +29,7 @@ int main()
                 printf("\n Euripides: Courage may be taught as a child is taught to speak. \n");
                 break;            
             default:
-                //used to consume \n 
+                //used to consume \n unnecssary?:)
                 getchar();
 
                 //return to while
