@@ -140,7 +140,7 @@ void clear_stdin()
 
 int human_choice(int pile)
 {
-
+    //Input checking from http://sekrit.de/webdocs/c/beginners-guide-away-from-scanf.html
     //The loop prevents undefined behaviour if the input is a char. Also prevents buffer overflow.
     do
     {
@@ -152,7 +152,7 @@ int human_choice(int pile)
         }
 
         humanChoice = atoi(buf); // Using the buffer and atoi ("Anything TO Integer")
-    } while (humanChoice != 0); // Returns 0 if the input was not a valid number
+    } while (humanChoice > 3 || humanChoice < 1); // Returns 0 if the input was not a valid number
 
 
 
@@ -177,10 +177,4 @@ int toggle( int player )
 {
 
 }
-=======
-#include <stdio.h>
 
-int main() {
-
-    return 0;
-}
