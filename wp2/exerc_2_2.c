@@ -1,3 +1,20 @@
+/*
+File name: exerc_2_2.c (or cpp)
+Date: 2020-01-28
+Group nr 1
+Members that contribute to the solutions
+Emanuel Dellsén
+Niklas Möller
+Karl Westgårdh 
+
+Member not present at demonstration time:
+NONE
+
+Demonstration code: [27455]
+Important
+No code no exercise points!
+*/
+
 #include <stdio.h>
 #include <stdlib.h> //for random generator && atoi
 #include <time.h>   //for random generator
@@ -32,7 +49,8 @@ int main()
     {
         int *pt = &array[i]; //Creating a pointer that points to the address where the value in the index of the array is stored 
 
-        printf("Integer value of index %d: %d \n", i, *pt); //Printing the value that the pointer points to
+
+        printf("Integer value of index %d: %d \n", i, *pt); //Printing the value that the pointer points to (use asterix)
         printf("Double value of index %d: %4.2lf \n", i, (double) *pt);
     }
 

@@ -1,3 +1,20 @@
+/*
+File name: exerc_3_1.c (or cpp)
+Date: 2020-01-28
+Group nr 1
+Members that contribute to the solutions
+Emanuel Dellsén
+Niklas Möller
+Karl Westgårdh 
+
+Member not present at demonstration time:
+NONE
+
+Demonstration code: []
+Important
+No code no exercise points!
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h> // import for isdigit
@@ -55,6 +72,10 @@ int main()
         getCoordinateInput(arrayOfInput, X);
         getCoordinateInput(arrayOfInput, Y);
         getDirectionsInput(arrayOfInput);
+
+        printf("\n in the main loop: %d", myRobot.xpos);
+        printf("\n in the main loop: %d", ptr_myRobot->xpos);
+
         start();
         //When all instructions are executed robot stops and the program prints out the new robot positionfor the robot
         stop();

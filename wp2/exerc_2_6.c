@@ -1,8 +1,24 @@
+/*
+File name: exerc_2_6.c (or cpp)
+Date: 2020-01-28
+Group nr 1
+Members that contribute to the solutions
+Emanuel Dellsén
+Niklas Möller
+Karl Westgårdh 
+
+Member not present at demonstration time:
+NONE
+
+Demonstration code: [27455]
+Important
+No code no exercise points!
+*/
+
 #include <stdio.h>
 
 #define MAX 5
 int que[MAX];
-
 
 void initQue(int list[], int max);
 int input(int list[], int number, int max);

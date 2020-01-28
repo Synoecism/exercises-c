@@ -1,3 +1,20 @@
+/*
+File name: exerc_2_1.c (or cpp)
+Date: 2020-01-28
+Group nr 1
+Members that contribute to the solutions
+Emanuel Dellsén
+Niklas Möller
+Karl Westgårdh 
+
+Member not present at demonstration time:
+NONE
+
+Demonstration code: [27455]
+Important
+No code no exercise points!
+*/
+
 // to read from txt instead of user input in terminal, use < myfile.txt after execution of gcc
 
 #include <stdio.h>
