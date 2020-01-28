@@ -25,7 +25,6 @@ No code no exercise points!
 
 int search_number(int number, int tab[], int size);
 int test[] = {1, 2, 34, 5, 67, 3, 23, 12, 13, 10};
-// why int number???????? ASK ON THURSDAY
 void sort(int number, int tab[]);
 void printArray(int number, int tab[]);
 int charToInt(char c);
@@ -33,48 +32,67 @@ char userInput[MAX];
 
 int main()
 {
-
+    //prompt user
     printf("Please input an integer below\n");
+
+    //get input from user
     fgets(userInput, 100, stdin);
+
+    //validate user input (if atoi returns 0; its' NaN)
     int inputNumber = atoi(userInput);
-    int arrayLength = sizeof(test) / sizeof(test[0]);
 
-    search_number(inputNumber, test, arrayLength);
+    //continue if inputNumber is numbers/digits
+    if (inputNumber != 0)
+    {
+        //calculate length of array
+        int arrayLength = sizeof(test) / sizeof(test[0]);
 
-    sort(arrayLength, test);
+        //search in predefined array for the number of user input
+        search_number(inputNumber, test, arrayLength);
+
+        //sort the predefined array
+        sort(arrayLength, test);
+    } else {
+        printf("Please specify a valid number \n");
+    }
+
     return 0;
 }
 
 int search_number(int number, int tab[], int size)
 {
-
     int i;
 
+    //iterate over the array and look for the user specified number
     for (i = 0; i < size; i++)
     {
         if (tab[i] == number)
         {
             printf("Found it on: %d\n", i);
+            //return index of position of found number
             return i;
         }
     }
+    //if number doesnt exist, return -1
     return -1;
 }
 
 void sort(int number, int tab[])
 {
 
-    int i, j, smallestValue = 0, arrayLength, positionToSwap = 0, temp= 0;
+    int i, j, smallestValue = 0, arrayLength, positionToSwap = 0, temp = 0;
+
+    //print the values of the array before sorting has begun
     printArray(number, tab);
-        printf(" = array before the sorting is done \n");
+    printf(" = array before the sorting is done \n");
 
     for (i = 0; i < number; i++)
     {
-       j = i;
+        j = i;
         smallestValue = tab[i];
         positionToSwap = i;
 
-        for (; j < number ; j++)
+        for (; j < number; j++)
         {
             if (tab[j] < smallestValue)
             {
@@ -82,11 +100,13 @@ void sort(int number, int tab[])
                 positionToSwap = j;
             }
         }
-        //swop
+        //swop values that has been found
         temp = tab[i];
         tab[i] = smallestValue;
         tab[positionToSwap] = temp;
     }
+
+    //print array after sorting
     printArray(number, tab);
     printf(" = array after the sorting is done \n");
 }
