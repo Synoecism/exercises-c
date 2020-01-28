@@ -16,6 +16,9 @@
 # exefiles
 *.exe
 
+# exercise codes file
+democodes.txt
+
 # outfiles
 *.out
 
