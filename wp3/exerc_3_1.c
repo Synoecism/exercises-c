@@ -65,20 +65,20 @@ int main()
     ROBOT myRobot = {3, 0, N};
 
     ptr_myRobot = &myRobot;
+            printf("I am the Robot. Please give me instructions or shut me off...\n");
+
     do
     {
 
-        printf("I am the Robot. Please give me instructions or shut me off...\n");
         getCoordinateInput(arrayOfInput, X);
         getCoordinateInput(arrayOfInput, Y);
+        //clears the array
+        memset(arrayOfInput, 0, sizeof(arrayOfInput));
         getDirectionsInput(arrayOfInput);
-
-        printf("\n in the main loop: %d", myRobot.xpos);
-        printf("\n in the main loop: %d", ptr_myRobot->xpos);
-
-        start();
+        start(arrayOfInput);
         //When all instructions are executed robot stops and the program prints out the new robot positionfor the robot
         stop();
+        printf("I have more energy to spend. I want to walk more. Please provide new instructions below: \n");
 
     } while (1);
     //change while(1) to something else later
@@ -210,21 +210,62 @@ int checkRange(int inputValue)
     }
 }
 
-int start()
+int start(char *arrayOfInput)
 {
-    //this is where we will spend the next 5 hours
+    int i;
+
+    for (i = 0; i < strlen(arrayOfInput); i++)
+    {
+        if (arrayOfInput[i] == 'm')
+        {
+            move();
+        }
+        else if (arrayOfInput[i] == 't')
+        {
+            turn();
+        }
+        else
+        {
+            printf("We have found something faulty");
+        }
+    }
+
+    return 0;
 }
 
 int stop()
 {
+
+    printf("I have stopped and my position is now: (%d,%d). Heading: %s \n",ptr_myRobot->xpos, ptr_myRobot->ypos, directions[ptr_myRobot->dir]);
+    return 0;
 }
 
 void move()
 {
+    int presentDirection = ptr_myRobot->dir;
+    switch (presentDirection)
+    {
+    case 0:
+        ptr_myRobot->ypos++;
+        break;
+    case 1:
+        ptr_myRobot->xpos++;
+        break;
+    case 2:
+        ptr_myRobot->ypos--;
+        break;
+    case 3:
+        ptr_myRobot->xpos--;
+        break;
+    }
 }
 
 void turn()
 {
+    int presentDirection = ptr_myRobot->dir;
+    presentDirection++;
+    //this is magic
+    ptr_myRobot->dir = presentDirection % 4;
 }
 
 void passValue(ROBOT *myRobot, int xpos, int ypos, enum DIRECTION dir)
