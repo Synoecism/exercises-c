@@ -52,6 +52,8 @@ int main()
 
         //sort the predefined array
         sort(arrayLength, test);
+    } else {
+        printf("Please specify a valid number \n");
     }
 
     return 0;
