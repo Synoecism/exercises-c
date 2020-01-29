@@ -48,15 +48,15 @@ int main(int argc, char *argv[])
     int nr = 0;
     REGTYPE *curr_position, *head = NULL;
 
+    //****** CREATE A RANDOMIZED DOUBLY LINKED LIST ******* //
+
+    printf("\n Creating a randomized doubly linked list \n");
+
     //Random seed
     srand(time(0));
 
     //create a random DLL and assign the head as the first node of the list (that is returned from the function)
     head = random_list();
-
-    printf("\n Printing the HEADS (aka TOP) number in main(): %d \n", head->number);
-    printf("\n Printing the next next from head in main(): %d \n", head->next->next->prev->prev->number);
-
 
     //set current position in DLL to the position of the head
     curr_position = head;
@@ -64,9 +64,33 @@ int main(int argc, char *argv[])
     //print the DLL positions and values (numbers)
     while (curr_position != NULL)
     {
-        printf("\n At index/position: %d. Has value: %d", nr++, curr_position->number);
+        printf("\n At index: %d. Has value: %d", nr++, curr_position->number);
         curr_position = curr_position->next;
     }
+
+    //****** END ******* //
+
+    //****** ADD A VALUE TO FIRST POSITION ******* //
+
+    printf("\n Adding a value to first position in doubly linked list \n");
+
+    //add a value in the first position (use current head as input)
+    head = add_first(head, 100);
+
+    //set current position in DLL to the position of the head
+    curr_position = head;
+
+    //reset counter
+    nr = 0;
+
+    //print the updated DLL positions and values (numbers)
+    while (curr_position != NULL)
+    {
+        printf("\n At index: %d. Has value: %d", nr++, curr_position->number);
+        curr_position = curr_position->next;
+    }
+    printf("\n");
+    //****** END ******* //
 
     //Free of allocated memory
     while ((curr_position = head) != NULL)
@@ -93,7 +117,6 @@ REGTYPE *random_list(void)
     top = NULL;
 
     REGTYPE *ptr_newNode;
-        
 
     //start loop to create DLL
     for (; i < MAX; i++)
@@ -101,42 +124,36 @@ REGTYPE *random_list(void)
 
         //create new node
         struct q *newNode;
-        newNode = (struct q *)malloc( sizeof(REGTYPE) );
-        printf("Address of newNode is: %x \n", &newNode);
+
+        //use malloc to be able access new memory AKA memory mgmt
+        newNode = (struct q *)malloc(sizeof(REGTYPE));
 
         //create pointer to new node
         ptr_newNode = newNode;
-        printf("Address of ptr_newNode is: %x \n", ptr_newNode);
-
 
         //create random number between 0-100
         nr = (rand() % (UPPER - LOWER + 1)) + LOWER;
 
-        printf("The random number generated at iteration %d is:  %d \n", i, nr);
-
         //set value of node number
         ptr_newNode->number = nr;
 
-        if(i == 0){
-            top = ptr_newNode;    
-        }else{
+        if (i == 0)
+        {
+            top = ptr_newNode;
+        }
+        else
+        {
             old->next = ptr_newNode;
         }
 
-        printf("The value of old after else statement is: %p \n", old);
-
-        //set next to NULL
+        //Set next of new node to NULL
         ptr_newNode->next = NULL;
 
-        ptr_newNode->prev = old; //Poiting to old as prev
+        //Set the pointer of prev of new node to the old node
+        ptr_newNode->prev = old;
 
+        //Change the pointer old to point to the newly created node
         old = ptr_newNode;
-
-        printf("The adress of ptr_newnode is: %p \n", ptr_newNode);
-        printf("The adress of old is: %p \n", old);
-        printf("The ptr_newnode - PREV: %p, NEXT: %p, NUM: %d \n", ptr_newNode->prev, ptr_newNode->next, ptr_newNode->number);
-        puts("\n");
-    
     }
 
     //return pointer to new node
@@ -145,6 +162,28 @@ REGTYPE *random_list(void)
 
 REGTYPE *add_first(REGTYPE *temp, int data)
 {
+    //initalization
+    struct q *newNode;
+    REGTYPE *ptr_newNode;
 
-    // Adds a record first i list and set the field tal to data
+    //use malloc to be able access new memory AKA memory mgmt
+    newNode = (struct q *)malloc(sizeof(REGTYPE));
+
+    //create pointer to new node
+    ptr_newNode = newNode;
+
+    //set value of newNode
+    newNode->number = data;
+
+    //set prev of current head to new node
+    temp->prev = ptr_newNode;
+
+    //set next of new node to current head
+    ptr_newNode->next = temp;
+
+    //set prev of new node to NULL
+    ptr_newNode->prev = NULL;
+
+    //return what will be the new head
+    return ptr_newNode;
 }
