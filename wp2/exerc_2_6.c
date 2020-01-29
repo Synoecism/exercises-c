@@ -28,11 +28,8 @@ void test();
 int main()
 {
 
-
     initQue(que, MAX);
     test();
-    
-    
 
     return 0;
 }
@@ -63,101 +60,114 @@ int input(int list[], int number, int max)
     }
     else
     {
-        for(;i >= 0; i--){
-      
-            if(list[i-1] != empty){
+        for (; i >= 0; i--)
+        {
+
+            if (list[i - 1] != empty)
+            {
                 list[i] = number;
                 break;
             }
         }
- 
+
         return 1;
     }
 }
 int output(int list[], int max)
 {
     int i, value;
-    if(list[0] == -1){
+    if (list[0] == -1)
+    {
         return 0;
     }
 
     //get value of first in queue
     value = list[0];
 
-    for(i = 0; i < max-1; i++){
-        list[i] = list[i+1];
+    for (i = 0; i < max - 1; i++)
+    {
+        list[i] = list[i + 1];
     }
-    list[max-1] = -1;
+    list[max - 1] = -1;
 
     return value;
 }
 
-void test(){
-        input(que, 3, MAX);
+void test()
+{
+    input(que, 3, MAX);
 
-    for(int i = 0; i < MAX; i++){
+    for (int i = 0; i < MAX; i++)
+    {
         printf("%d\t", que[i]);
     }
     printf("\n");
     input(que, 4, MAX);
-    for(int i = 0; i < MAX; i++){
+    for (int i = 0; i < MAX; i++)
+    {
         printf("%d\t", que[i]);
     }
-        printf("\n");
+    printf("\n");
 
     input(que, 7, MAX);
-    for(int i = 0; i < MAX; i++){
+    for (int i = 0; i < MAX; i++)
+    {
         printf("%d\t", que[i]);
     }
     printf("\n");
 
     input(que, 8, MAX);
-    for(int i = 0; i < MAX; i++){
-        printf("%d\t", que[i]);
-    }
-
-        printf("\n");
-
-
-        input(que, 8, MAX);
-    for(int i = 0; i < MAX; i++){
+    for (int i = 0; i < MAX; i++)
+    {
         printf("%d\t", que[i]);
     }
 
     printf("\n");
-    printf("If queue is full return 0. The returned value is %d",input(que, 8, MAX));
+
+    input(que, 8, MAX);
+    for (int i = 0; i < MAX; i++)
+    {
+        printf("%d\t", que[i]);
+    }
+
+    printf("\n");
+    printf("If queue is full return 0. The returned value is %d", input(que, 8, MAX));
     printf("\n");
 
     output(que, MAX);
-    for(int i = 0; i < MAX; i++){
+    for (int i = 0; i < MAX; i++)
+    {
         printf("%d\t", que[i]);
     }
     printf("\n");
 
     output(que, MAX);
-    for(int i = 0; i < MAX; i++){
+    for (int i = 0; i < MAX; i++)
+    {
         printf("%d\t", que[i]);
     }
-        printf("\n");
+    printf("\n");
 
     output(que, MAX);
-    for(int i = 0; i < MAX; i++){
+    for (int i = 0; i < MAX; i++)
+    {
         printf("%d\t", que[i]);
     }
-        printf("\n");
+    printf("\n");
 
-     output(que, MAX);
-    for(int i = 0; i < MAX; i++){
+    output(que, MAX);
+    for (int i = 0; i < MAX; i++)
+    {
         printf("%d\t", que[i]);
     }
-        printf("\n");
+    printf("\n");
 
-     output(que, MAX);
-    for(int i = 0; i < MAX; i++){
+    output(que, MAX);
+    for (int i = 0; i < MAX; i++)
+    {
         printf("%d\t", que[i]);
     }
-        printf("\n");
+    printf("\n");
 
-        printf("If queue is empty return 0. The returned value is %d\n",output(que, MAX));
-
+    printf("If queue is empty return 0. The returned value is %d\n", output(que, MAX));
 }
