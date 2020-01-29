@@ -24,11 +24,14 @@ typedef struct
     char firstname[20];
     char famnamne[20];
     char pers_number[13];
-} PERSON; 
+} PERSON;
 
-#define MAX 1024 //1 Kb to not overflow
+#define MAX 10 //1 Kb to not overflow
 char buffer[MAX];
 char *ptr_buffer = buffer;
+
+FILE *file;
+char *filename = "persons.bin";
 
 // Function declaration (to be extend)
 PERSON input_record(void); // Reads in a person record
@@ -49,10 +52,11 @@ int main(void)
 {
     PERSON ppost;
     PERSON *ptr_ppost = &ppost;
-    
+
     puts("Hello and welcome! \n");
 
-    MENU : print_menu();
+MENU:
+    print_menu();
 
     getInput(ptr_buffer);
     int choice = atoi(ptr_buffer);
@@ -66,10 +70,12 @@ int main(void)
         input_record();
         break;
     case 3:
+        puts("Enter the firstname of the person you want to search for:");
         getInput(ptr_buffer);
         //search_by_firstname();
         break;
     case 4:
+        printfile();
         break;
     case 5:
         puts("Goodbye! :)");
@@ -77,56 +83,91 @@ int main(void)
     default:
         puts("Please enter a valid number between 1 - 5.");
     }
-    
 
     goto MENU;
-
 
     return (0);
 }
 
-void print_menu(){
+void print_menu()
+{
 
-puts("Please pick one of the options:\n");
-puts("1 Create a new and delete the old file");
-puts("2 Add a new person to the file");
-puts("3 Search for a person in the file");
-puts("4 Print out all in the file");
-puts("5 Exit the program.\n");
-
+    puts("Please pick one of the options:\n");
+    puts("1 Create a new and delete the old file");
+    puts("2 Add a new person to the file");
+    puts("3 Search for a person in the file");
+    puts("4 Print out all in the file");
+    puts("5 Exit the program.\n");
 }
 
-void getInput(char *ptr_buffer){
+void getInput(char *ptr_buffer)
+{
 
     fgets(ptr_buffer, MAX, stdin);
-
 }
 
-PERSON input_record(void){
+PERSON input_record(void)
+{
     PERSON myperson = {};
-    
+
     return myperson;
 };
 
-void write_new_file(PERSON *inrecord){
-    
+void write_new_file(PERSON *inrecord)
+{
+
     puts("In write new file");
 
-}; 
+    //Solution from the book: An Introduction to C Programming for Java Programmers by Mark Handley
+    /* open the file for writing. w means create a empty file for writing */
+    file = fopen(filename, "w");
 
-void printfile(void){
+    if (file == NULL)
+    {
+        fprintf(stderr, "File %s could not be openednn", filename);
+        exit(1);
+    }
 
-        puts("In Print file");
+    /* write to the file */
+    fprintf(file, "John Doe\n");
+    /* close the file */
+    fclose(file);
 };
 
-void search_by_firstname(char *name){
+void printfile(void)
+{
 
-puts("In serach by firstname");
-
+    puts("In Print file");
+    //Solution from the book: An Introduction to C Programming for Java Programmers by Mark Handley
+    /* open the file for writing. R means opening the file for reading. The file must exist*/
+    file = fopen(filename, "r");
+    if (file == NULL)
+    {
+        fprintf(stderr, "File %s could not be openednn", filename);
+        exit(1);
+    }
+    /* loop while reading a line at a time from the file and printing */
+    while (1)
+    {
+        char buffer[80];
+        fgets(buffer, 80, file);
+        /* if it’s the end of file, break out of this loop */
+        if (feof(file))
+            break;
+        printf("%s", buffer);
+    }
+    /* close the file */
+    fclose(file);
 };
 
-void append_file(PERSON *inrecord){
+void search_by_firstname(char *name)
+{
 
-puts("In append_file");
+    puts("In serach by firstname");
+};
 
+void append_file(PERSON *inrecord)
+{
+
+    puts("In append_file");
 };
