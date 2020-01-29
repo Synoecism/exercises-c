@@ -163,11 +163,11 @@ REGTYPE *random_list(void)
 REGTYPE *add_first(REGTYPE *temp, int data)
 {
     //initalization
-    struct q *newNode;
+    REGTYPE *newNode;
     REGTYPE *ptr_newNode;
 
     //use malloc to be able access new memory AKA memory mgmt
-    newNode = (struct q *)malloc(sizeof(REGTYPE));
+    newNode = (REGTYPE *)malloc(sizeof(REGTYPE));
 
     //create pointer to new node
     ptr_newNode = newNode;
