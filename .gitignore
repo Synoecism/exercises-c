@@ -16,11 +16,15 @@
 # exefiles
 *.exe
 
-# exercise codes file
+# exercise codes file and myfile.txt
 democodes.txt
+myfile.txt
 
 # outfiles
 *.out
+
+# bin file
+*.bin
 
 # Ignore `bin` dir
 bin/

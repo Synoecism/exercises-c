@@ -46,28 +46,39 @@ void append_file(PERSON *inrecord); // appends a new person to the file
 
 void print_menu();
 
+void createPerson(PERSON *ptr_ppost);
+
 void getInput(char *ptr_buffer);
 
 int main(void)
 {
     PERSON ppost;
     PERSON *ptr_ppost = &ppost;
+    PERSON *ptr_dummy;
+
+    //create a dummy struct
+    PERSON dummy = {.firstname = "John", .famnamne = "Doe", .pers_number = "9001019999"};
+
+    //assign the pointer to the address of the dummy
+    ptr_dummy = &dummy;
 
     puts("Hello and welcome! \n");
 
 MENU:
     print_menu();
 
+    //get user input of choice to direct from menu
     getInput(ptr_buffer);
     int choice = atoi(ptr_buffer);
 
     switch (choice)
     {
     case 1:
-        write_new_file(ptr_ppost);
+        write_new_file(ptr_dummy);
         break;
     case 2:
-        input_record();
+        ppost = input_record();
+        append_file(ptr_ppost);
         break;
     case 3:
         puts("To serach for firstname, enter of the person you want to search for:");
@@ -91,7 +102,6 @@ MENU:
 
 void print_menu()
 {
-
     puts("Please pick one of the options:\n");
     puts("1 Create a new and delete the old file");
     puts("2 Add a new person to the file");
@@ -102,60 +112,75 @@ void print_menu()
 
 void getInput(char *ptr_buffer)
 {
-
+    //get input
     fgets(ptr_buffer, MAX, stdin);
+
+    //remove enter of input
+    ptr_buffer[strlen(ptr_buffer)-1] = '\0';
 }
 
 PERSON input_record(void)
 {
-    PERSON myperson = {};
+    PERSON myperson;
+
+    //get user input
+    puts("Please enter the firstname of the new person:");
+    getInput(myperson.firstname);
+
+    //get user input
+    puts("Please enter the family name of the new person:");
+    getInput(myperson.famnamne);
+
+    //get user input
+    puts("Please enter the personnumber of the new person:");
+    getInput(myperson.pers_number);
 
     return myperson;
 };
 
 void write_new_file(PERSON *inrecord)
 {
-
-    puts("In write new file");
-
     //Solution from the book: An Introduction to C Programming for Java Programmers by Mark Handley
-    /* open the file for writing. w means create a empty file for writing */
-    file = fopen(filename, "w");
+
+    /* open the file for writing. w+ means create a empty file for writing to multiple values */
+    file = fopen(filename, "w+");
 
     if (file == NULL)
     {
-        fprintf(stderr, "File %s could not be openednn", filename);
+        fprintf(stderr, "File %s could not be opened \n", filename);
         exit(1);
     }
 
     /* write to the file */
-    fprintf(file, "John Doe\n");
+    fprintf(file, "%s %s %s", inrecord->firstname, inrecord->famnamne, inrecord->pers_number);
+
     /* close the file */
     fclose(file);
 };
 
 void printfile(void)
 {
-
-    puts("In Print file");
     //Solution from the book: An Introduction to C Programming for Java Programmers by Mark Handley
+
     /* open the file for writing. R means opening the file for reading. The file must exist*/
     file = fopen(filename, "r");
     if (file == NULL)
     {
-        fprintf(stderr, "File %s could not be openednn", filename);
+        fprintf(stderr, "File %s could not be opened \n", filename);
         exit(1);
     }
     /* loop while reading a line at a time from the file and printing */
     while (1)
     {
-        char buffer[80];
-        fgets(buffer, 80, file);
+        char c = fgetc(file);
         /* if it’s the end of file, break out of this loop */
         if (feof(file))
             break;
-        printf("%s", buffer);
+        printf("%c", c);
     }
+    //end print with a new line
+    printf("\n");
+
     /* close the file */
     fclose(file);
 };
@@ -247,5 +272,17 @@ void search_by_firstname(char *name)
 void append_file(PERSON *inrecord)
 {
 
-    puts("In append_file");
+    /* open the file for writing. a for append */
+    file = fopen(filename, "a");
+
+    if (file == NULL)
+    {
+        fprintf(stderr, "File %s could not be opened \n", filename);
+        exit(1);
+    }
+
+    /* write to the file */
+    fprintf(file,"\n%s %s %s",inrecord->firstname, inrecord->famnamne, inrecord->pers_number);
+    /* close the file */
+    fclose(file);
 };

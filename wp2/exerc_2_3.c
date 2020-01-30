@@ -28,10 +28,10 @@ int main(int argc, char **argv)
     //if statement to invalidate input when more then two strings
     if (argc <= 3)
     {
-
         //start at index 1 to exclude execute command
         for (int i = 1; i < argc - 1; i++)
         {
+            //compare with library function
             if (strcmp(argv[i], argv[i + 1]) == 0)
             {
                 printf("\nString compare using strcmp() == true \n");
@@ -41,6 +41,7 @@ int main(int argc, char **argv)
                 printf("\nString compare using strcmp() == false \n");
             }
 
+            //compare with own constructed function
             if (stringCompare(argv[i], argv[i + 1]))
             {
                 printf("String compare using stringCompare() == true \n");
@@ -61,31 +62,26 @@ int main(int argc, char **argv)
 
 bool stringCompare(char *first, char *second)
 {
-
     //get array size in indicies (not byte size)
     int flen = strlen(first);
     int slen = strlen(second);
     int len;
 
-    //assign the longest string as length in forloop
-    if (flen < slen)
-    {
-        len = slen;
-    }
-    else
-    {
-        len = flen;
+    //if the string are of different length, invalidate comparison
+    if (flen < slen){
+        return false;
     }
 
-    bool value = true;
+    len = flen;
 
     for (int i = 0; i < len; i++)
     {
         if (first[i] != second[i])
         {
-            value = false;
+            //break if comparison is invalid
+            return false;
         }
     }
-
-    return value;
+    //if reached, comparison is valid
+    return true;
 }
