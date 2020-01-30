@@ -26,7 +26,7 @@ typedef struct
     char pers_number[13];
 } PERSON;
 
-#define MAX 100 //1 Kb to not overflow
+#define MAX 1024 //1 Kb to not overflow
 char buffer[MAX];
 char *ptr_buffer = buffer;
 
@@ -81,9 +81,9 @@ MENU:
         append_file(ptr_ppost);
         break;
     case 3:
-        puts("Enter the firstname of the person you want to search for:");
+        puts("Enter the name you would like to search for:");
         getInput(ptr_buffer);
-        //search_by_firstname();
+        search_by_firstname(ptr_buffer);
         break;
     case 4:
         printfile();
@@ -187,8 +187,134 @@ void printfile(void)
 
 void search_by_firstname(char *name)
 {
+    CHOICE: puts("Enter 1 if you search for firstname, alt. 2 is you seach for familyname:");
 
-    puts("In serach by firstname");
+    char choice[MAX];
+    char *ptr_choice = choice;
+    getInput(ptr_choice);
+
+    printf("Choice is: %s \n", choice);
+
+    int find_result = 0;
+    char temp[1024];
+    //char name[100]; //Creating a shar array to store the name
+    char tempName[1024];
+
+    int lenghtOfInputName = strlen(name); //Remove a digit for /n
+
+    //gcc users
+    if ((file = fopen(filename, "r")) == NULL)
+    {
+        puts("Could not open the file");
+        //return(-1);
+    }
+    else
+    {
+
+        //Read the entire file until the last line which is NULL
+        while (fgets(temp, 1024, file) != NULL)  //Gets one line at a time and stores it as temp
+        { 
+
+                if(ptr_choice[0] == '1'){
+
+                int i;
+                for (i = 0; i < lenghtOfInputName; i++)
+                {
+                    tempName[i] = temp[i];
+                }
+
+                printf("tempName is %s and length is %d \n", tempName, strlen(tempName));
+                printf("name is %s and length is %d \n", name, strlen(name));
+                
+
+                if (strcmp(tempName, name) == 0)
+                {
+                    printf("Found a %s with info: %s \n", name, temp);
+                }
+
+                }
+                else if (ptr_choice[0] == '2'){
+
+
+                    
+                                printf("Temp is %s \n", temp);
+
+                char *token;
+                token = strtok(temp, " ");
+                printf("Token is %s \n ", token);
+                printf("Temp is %s \n", temp[1]);
+
+                int i = strlen(token) + 1;
+                printf("I is %d, \n", i);
+                
+/*                 i = 0; */
+                for (; i < strlen(temp); i++)
+                {
+
+/*                     if(temp[i] == " "){
+
+                    } */
+                    tempName[i] = temp[i];
+                }
+
+                printf("tempName is %s and length is %d \n", tempName, strlen(tempName));
+                printf("name is %s and length is %d \n", name, strlen(name));
+                
+
+                if (strcmp(tempName, name) == 0)
+                {
+                    printf("Found a %s with info: %s \n", name, temp);
+                }
+
+
+
+                }
+                else{
+                    puts("Please give correct input");
+                        if (file)
+    {
+        fclose(file);
+    }
+                    goto CHOICE;
+                }
+
+  }
+
+            //printf("Printing temp:   %s \n", temp);
+/* 
+            char *foundName = strtok(temp, " ");
+            // loop through the string to extract all other tokens
+            int i = 0;
+            //1 for first name
+            //2 for last name
+
+            //for(; i < 1; i++){
+            //foundName = strtok(NULL, " ");
+            //}
+
+            //comparing the name with the input
+            if ((strstr(foundName, name) != NULL))
+            { //Compares "haystack" and "needle"
+                printf("Found the searched name:   %s \n", temp);
+                find_result++;
+            }
+
+            foundName = strtok(NULL, " "); */
+      
+
+    }
+
+    //Visual Studio users on Windows
+    //if((fopen_s(&file, fname, "r")) != NULL) {
+    //	return(-1);
+    //}
+
+    //Close the file if still open.
+    if (file)
+    {
+        fclose(file);
+    }
+    //return(0);
 };
 
 void append_file(PERSON *inrecord)
