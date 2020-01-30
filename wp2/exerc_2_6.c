@@ -48,7 +48,6 @@ void initQue(int list[], int max)
 
 int input(int list[], int number, int max)
 {
-
     // - 1 to make sure we dont get index out of bounds
     int i = max - 1;
     int empty = -1;
