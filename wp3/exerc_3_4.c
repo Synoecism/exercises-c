@@ -62,13 +62,19 @@ int main(void)
     //assign the pointer to the address of the dummy
     ptr_dummy = &dummy;
 
+    //start of program
     puts("Hello and welcome! \n");
 
-MENU:
+    //goto location
+    MENU:
+
+    //print user menu
     print_menu();
 
     //get user input of choice to direct from menu
     getInput(ptr_buffer);
+
+    //convert input to integer
     int choice = atoi(ptr_buffer);
 
     switch (choice)
@@ -187,7 +193,11 @@ void printfile(void)
 
 void search_by_firstname(char *name)
 {
-CHOICE:
+    char choice[MAX];
+    //goto location
+    CHOICE:
+
+    //prompt user
     puts("Enter 1 if you search for firstname, alt. 2 is you seach for familyname:");
 
     char choice[MAX];
@@ -195,37 +205,44 @@ CHOICE:
     getInput(ptr_choice);
     char temp[1024];
 
-    //for gcc users
-    if ((file = fopen(filename, "r")) == NULL)
+    //open file for reading
+    file = fopen(filename, "r");
+    if (file == NULL)
     {
-        puts("Could not open the file");
+        //exit application if error with file reading
+        fprintf(stderr, "File %s could not be opened \n", filename);
+        exit(1);
     }
     else
     {
-
         int foundNames = 0;
 
-        //Read the entire file until the last line which is NULL
-        while (fgets(temp, 1024, file) != NULL) //Gets one line at a time and stores it as temp
+        //Read the entire file (one line at a time) until the last line which is NULL
+        while (fgets(temp, 1024, file) != NULL)
         {
-
+            //convert choice of firstname or familyname into integer
             int choice = atoi(ptr_choice);
-            if (choice < 3)
+
+            if (choice < 3 && choice > 0)
             {
                 char copyTemp[MAX];
+                char *token;
+
+                //copy the whole line that has been read in the while loop
                 strcpy(copyTemp, temp);
 
-                char *token;
+                //assign the string up until the delimiter into token (part of the whole line read)
                 token = strtok(temp, " ");
 
                 int i = 0;
 
+                //changes the token if there is a new delimiter (i.e. moves the delimiter from left to right)
                 while (i < choice - 1)
                 {
                     token = strtok(NULL, " ");
-
                     i++;
                 }
+                //check if inputed name is equally to the current token (part of whole line)
                 if (strcmp(token, name) == 0)
                 {
                     printf("Found a %s with info: %s", token, copyTemp);
@@ -239,10 +256,12 @@ CHOICE:
                 {
                     fclose(file);
                 }
+                //go back to top of method
                 goto CHOICE;
             }
         }
 
+        //prompt user if there is no found records according to input
         if (foundNames == 0)
         {
             puts("There were no matching records");
