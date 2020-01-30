@@ -81,7 +81,7 @@ MENU:
         append_file(ptr_ppost);
         break;
     case 3:
-        puts("To serach for firstname, enter of the person you want to search for:");
+        puts("Enter the name you would like to search for:");
         getInput(ptr_buffer);
         search_by_firstname(ptr_buffer);
         break;
@@ -187,17 +187,20 @@ void printfile(void)
 
 void search_by_firstname(char *name)
 {
-    puts("In search by firstname");
+    CHOICE: puts("Enter 1 if you search for firstname, alt. 2 is you seach for familyname:");
 
-    // https://www.codingunit.com/c-tutorial-searching-for-strings-in-a-text-file
+    char choice[MAX];
+    char *ptr_choice = choice;
+    getInput(ptr_choice);
 
-    //FILE *fp;   -> for me *file
+    printf("Choice is: %s \n", choice);
+
     int find_result = 0;
     char temp[1024];
     //char name[100]; //Creating a shar array to store the name
     char tempName[1024];
 
-    int lenghtOfInputName = strlen(name) -1; //Remove a digit for /n
+    int lenghtOfInputName = strlen(name); //Remove a digit for /n
 
     //gcc users
     if ((file = fopen(filename, "r")) == NULL)
@@ -212,6 +215,8 @@ void search_by_firstname(char *name)
         while (fgets(temp, 1024, file) != NULL)  //Gets one line at a time and stores it as temp
         { 
 
+                if(ptr_choice[0] == '1'){
+
                 int i;
                 for (i = 0; i < lenghtOfInputName; i++)
                 {
@@ -224,9 +229,56 @@ void search_by_firstname(char *name)
 
                 if (strcmp(tempName, name) == 0)
                 {
-                    printf("Found a matching name!");
+                    printf("Found a %s with info: %s \n", name, temp);
                 }
 
+                }
+                else if (ptr_choice[0] == '2'){
+
+
+                    
+                                printf("Temp is %s \n", temp);
+
+                char *token;
+                token = strtok(temp, " ");
+                printf("Token is %s \n ", token);
+                printf("Temp is %s \n", temp[1]);
+
+                int i = strlen(token) + 1;
+                printf("I is %d, \n", i);
+                
+/*                 i = 0; */
+                for (; i < strlen(temp); i++)
+                {
+
+/*                     if(temp[i] == " "){
+
+                    } */
+                    tempName[i] = temp[i];
+                }
+
+                printf("tempName is %s and length is %d \n", tempName, strlen(tempName));
+                printf("name is %s and length is %d \n", name, strlen(name));
+                
+
+                if (strcmp(tempName, name) == 0)
+                {
+                    printf("Found a %s with info: %s \n", name, temp);
+                }
+
+
+
+                }
+                else{
+                    puts("Please give correct input");
+                        if (file)
+    {
+        fclose(file);
+    }
+                    goto CHOICE;
+                }
+
+  }
 
             //printf("Printing temp:   %s \n", temp);
 /* 
@@ -248,12 +300,8 @@ void search_by_firstname(char *name)
             }
 
             foundName = strtok(NULL, " "); */
-        }
+      
 
-        if (find_result == 0)
-        {
-            printf("\nSorry, couldn't find a match.\n");
-        }
     }
 
     //Visual Studio users on Windows
