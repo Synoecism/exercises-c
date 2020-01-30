@@ -116,7 +116,7 @@ void getInput(char *ptr_buffer)
     fgets(ptr_buffer, MAX, stdin);
 
     //remove enter of input
-    ptr_buffer[strlen(ptr_buffer)-1] = '\0';
+    ptr_buffer[strlen(ptr_buffer) - 1] = '\0';
 }
 
 PERSON input_record(void)
@@ -187,7 +187,8 @@ void printfile(void)
 
 void search_by_firstname(char *name)
 {
-    CHOICE: puts("Enter 1 if you search for firstname, alt. 2 is you seach for familyname:");
+CHOICE:
+    puts("Enter 1 if you search for firstname, alt. 2 is you seach for familyname:");
 
     char choice[MAX];
     char *ptr_choice = choice;
@@ -206,16 +207,17 @@ void search_by_firstname(char *name)
     if ((file = fopen(filename, "r")) == NULL)
     {
         puts("Could not open the file");
-        //return(-1);
+        return -1;
     }
     else
     {
 
         //Read the entire file until the last line which is NULL
-        while (fgets(temp, 1024, file) != NULL)  //Gets one line at a time and stores it as temp
-        { 
+        while (fgets(temp, 1024, file) != NULL) //Gets one line at a time and stores it as temp
+        {
 
-                if(ptr_choice[0] == '1'){
+            if (ptr_choice[0] == '1')
+            {
 
                 int i;
                 for (i = 0; i < lenghtOfInputName; i++)
@@ -225,19 +227,16 @@ void search_by_firstname(char *name)
 
                 printf("tempName is %s and length is %d \n", tempName, strlen(tempName));
                 printf("name is %s and length is %d \n", name, strlen(name));
-                
 
                 if (strcmp(tempName, name) == 0)
                 {
                     printf("Found a %s with info: %s \n", name, temp);
                 }
+            }
+            else if (ptr_choice[0] == '2')
+            {
 
-                }
-                else if (ptr_choice[0] == '2'){
-
-
-                    
-                                printf("Temp is %s \n", temp);
+                printf("Temp is %s \n", temp);
 
                 char *token;
                 token = strtok(temp, " ");
@@ -246,12 +245,12 @@ void search_by_firstname(char *name)
 
                 int i = strlen(token) + 1;
                 printf("I is %d, \n", i);
-                
-/*                 i = 0; */
+
+                /*                 i = 0; */
                 for (; i < strlen(temp); i++)
                 {
 
-/*                     if(temp[i] == " "){
+                    /*                     if(temp[i] == " "){
 
                     } */
                     tempName[i] = temp[i];
@@ -259,29 +258,25 @@ void search_by_firstname(char *name)
 
                 printf("tempName is %s and length is %d \n", tempName, strlen(tempName));
                 printf("name is %s and length is %d \n", name, strlen(name));
-                
 
                 if (strcmp(tempName, name) == 0)
                 {
                     printf("Found a %s with info: %s \n", name, temp);
                 }
-
-
-
+            }
+            else
+            {
+                puts("Please give correct input");
+                if (file)
+                {
+                    fclose(file);
                 }
-                else{
-                    puts("Please give correct input");
-                        if (file)
-    {
-        fclose(file);
-    }
-                    goto CHOICE;
-                }
+                goto CHOICE;
+            }
+        }
 
-  }
-
-            //printf("Printing temp:   %s \n", temp);
-/* 
+        //printf("Printing temp:   %s \n", temp);
+        /* 
             char *foundName = strtok(temp, " ");
             // loop through the string to extract all other tokens
             int i = 0;
@@ -300,8 +295,6 @@ void search_by_firstname(char *name)
             }
 
             foundName = strtok(NULL, " "); */
-      
-
     }
 
     //Visual Studio users on Windows
@@ -330,7 +323,7 @@ void append_file(PERSON *inrecord)
     }
 
     /* write to the file */
-    fprintf(file,"\n%s %s %s",inrecord->firstname, inrecord->famnamne, inrecord->pers_number);
+    fprintf(file, "\n%s %s %s", inrecord->firstname, inrecord->famnamne, inrecord->pers_number);
     /* close the file */
     fclose(file);
 };
