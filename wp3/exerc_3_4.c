@@ -54,7 +54,7 @@ int main(void)
     PERSON *ptr_ppost = &ppost;
 
     //create a dummy struct
-    PERSON dummy = {.firstname = "John",.famnamne = "Doe",.pers_number = "9001019999"};
+    PERSON dummy = {.firstname = "John", .famnamne = "Doe", .pers_number = "9001019999"};
 
     //assign the pointer to the address of the dummy
     ptr_ppost = &dummy;
@@ -121,7 +121,7 @@ void write_new_file(PERSON *inrecord)
 {
     //Solution from the book: An Introduction to C Programming for Java Programmers by Mark Handley
 
-    /* open the file for writing. w means create a empty file for writing */
+    /* open the file for writing. w+ means create a empty file for writing to multiple values */
     file = fopen(filename, "w+");
 
     if (file == NULL)
@@ -131,7 +131,7 @@ void write_new_file(PERSON *inrecord)
     }
 
     /* write to the file */
-    fprintf(file, "%s %s %s",inrecord->firstname,inrecord->famnamne,inrecord->pers_number);
+    fprintf(file, "%s %s %s", inrecord->firstname, inrecord->famnamne, inrecord->pers_number);
     /* close the file */
     fclose(file);
 };
