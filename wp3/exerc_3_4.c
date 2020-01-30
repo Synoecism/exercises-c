@@ -53,11 +53,18 @@ int main(void)
     PERSON ppost;
     PERSON *ptr_ppost = &ppost;
 
+    //create a dummy struct
+    PERSON dummy = {.firstname = "John",.famnamne = "Doe",.pers_number = "9001019999"};
+
+    //assign the pointer to the address of the dummy
+    ptr_ppost = &dummy;
+
     puts("Hello and welcome! \n");
 
 MENU:
     print_menu();
 
+    //get user input of choice to direct from menu
     getInput(ptr_buffer);
     int choice = atoi(ptr_buffer);
 
@@ -91,7 +98,6 @@ MENU:
 
 void print_menu()
 {
-
     puts("Please pick one of the options:\n");
     puts("1 Create a new and delete the old file");
     puts("2 Add a new person to the file");
@@ -102,25 +108,21 @@ void print_menu()
 
 void getInput(char *ptr_buffer)
 {
-
     fgets(ptr_buffer, MAX, stdin);
 }
 
 PERSON input_record(void)
 {
     PERSON myperson = {};
-
     return myperson;
 };
 
 void write_new_file(PERSON *inrecord)
 {
-
-    puts("In write new file");
-
     //Solution from the book: An Introduction to C Programming for Java Programmers by Mark Handley
+
     /* open the file for writing. w means create a empty file for writing */
-    file = fopen(filename, "w");
+    file = fopen(filename, "w+");
 
     if (file == NULL)
     {
@@ -129,7 +131,7 @@ void write_new_file(PERSON *inrecord)
     }
 
     /* write to the file */
-    fprintf(file, "John Doe\n");
+    fprintf(file, "%s %s %s",inrecord->firstname,inrecord->famnamne,inrecord->pers_number);
     /* close the file */
     fclose(file);
 };

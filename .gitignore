@@ -22,6 +22,9 @@ democodes.txt
 # outfiles
 *.out
 
+# bin file
+*.bin
+
 # Ignore `bin` dir
 bin/
 # or
