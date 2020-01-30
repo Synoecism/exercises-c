@@ -26,7 +26,7 @@ typedef struct
     char pers_number[13];
 } PERSON;
 
-#define MAX 10 //1 Kb to not overflow
+#define MAX 1024 //1 Kb to not overflow
 char buffer[MAX];
 char *ptr_buffer = buffer;
 
@@ -70,9 +70,9 @@ MENU:
         input_record();
         break;
     case 3:
-        puts("Enter the firstname of the person you want to search for:");
+        puts("To serach for firstname, enter of the person you want to search for:");
         getInput(ptr_buffer);
-        //search_by_firstname();
+        search_by_firstname(ptr_buffer);
         break;
     case 4:
         printfile();
@@ -162,8 +162,86 @@ void printfile(void)
 
 void search_by_firstname(char *name)
 {
+    puts("In search by firstname");
 
-    puts("In serach by firstname");
+    // https://www.codingunit.com/c-tutorial-searching-for-strings-in-a-text-file
+
+    //FILE *fp;   -> for me *file
+    int find_result = 0;
+    char temp[1024];
+    //char name[100]; //Creating a shar array to store the name
+    char tempName[1024];
+
+    int lenghtOfInputName = strlen(name) -1; //Remove a digit for /n
+
+    //gcc users
+    if ((file = fopen(filename, "r")) == NULL)
+    {
+        puts("Could not open the file");
+        //return(-1);
+    }
+    else
+    {
+
+        //Read the entire file until the last line which is NULL
+        while (fgets(temp, 1024, file) != NULL)  //Gets one line at a time and stores it as temp
+        { 
+
+                int i;
+                for (i = 0; i < lenghtOfInputName; i++)
+                {
+                    tempName[i] = temp[i];
+                }
+
+                printf("tempName is %s and length is %d \n", tempName, strlen(tempName));
+                printf("name is %s and length is %d \n", name, strlen(name));
+                
+
+                if (strcmp(tempName, name) == 0)
+                {
+                    printf("Found a matching name!");
+                }
+
+
+            //printf("Printing temp:   %s \n", temp);
+/* 
+            char *foundName = strtok(temp, " ");
+            // loop through the string to extract all other tokens
+            int i = 0;
+            //1 for first name
+            //2 for last name
+
+            //for(; i < 1; i++){
+            //foundName = strtok(NULL, " ");
+            //}
+
+            //comparing the name with the input
+            if ((strstr(foundName, name) != NULL))
+            { //Compares "haystack" and "needle"
+                printf("Found the searched name:   %s \n", temp);
+                find_result++;
+            }
+
+            foundName = strtok(NULL, " "); */
+        }
+
+        if (find_result == 0)
+        {
+            printf("\nSorry, couldn't find a match.\n");
+        }
+    }
+
+    //Visual Studio users on Windows
+    //if((fopen_s(&file, fname, "r")) != NULL) {
+    //	return(-1);
+    //}
+
+    //Close the file if still open.
+    if (file)
+    {
+        fclose(file);
+    }
+    //return(0);
 };
 
 void append_file(PERSON *inrecord)
