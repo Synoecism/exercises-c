@@ -126,7 +126,7 @@ void write_new_file(PERSON *inrecord)
 
     if (file == NULL)
     {
-        fprintf(stderr, "File %s could not be openednn", filename);
+        fprintf(stderr, "File %s could not be opened \n", filename);
         exit(1);
     }
 
@@ -138,26 +138,29 @@ void write_new_file(PERSON *inrecord)
 
 void printfile(void)
 {
-
-    puts("In Print file");
     //Solution from the book: An Introduction to C Programming for Java Programmers by Mark Handley
+
     /* open the file for writing. R means opening the file for reading. The file must exist*/
     file = fopen(filename, "r");
     if (file == NULL)
     {
-        fprintf(stderr, "File %s could not be openednn", filename);
+        fprintf(stderr, "File %s could not be opened \n", filename);
         exit(1);
     }
     /* loop while reading a line at a time from the file and printing */
     while (1)
     {
-        char buffer[80];
-        fgets(buffer, 80, file);
+        //char buffer[80];
+        //fgets(buffer, 80, file);
+        char c = fgetc(file);
         /* if it’s the end of file, break out of this loop */
         if (feof(file))
             break;
-        printf("%s", buffer);
+        printf("%c", c);
     }
+    //end print with a new line 
+    printf("\n");
+
     /* close the file */
     fclose(file);
 };
