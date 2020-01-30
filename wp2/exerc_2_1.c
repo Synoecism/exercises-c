@@ -30,17 +30,15 @@ int main() {
     char copy[BUFFERSIZE];
     char to[BUFFERSIZE];
 
-    //wait for input
+    //Wait for input
     fgets(from,BUFFERSIZE,stdin);
 
     //SCENARIO A)    
     strcpy(copy,from);
-
     printf("\n Read and copied by use of strcpy() !: %s \n",copy);
 
     //SCENARIO B)
-    copyString(&to,&from); //Passing the address of the variables and not their values
-
+    copyString(&to,&from);
     printf("\n Read and copied by use of copyString() !: %s \n",to);
 
     return 0;
@@ -52,7 +50,7 @@ void copyString(char *to, char *from){
     for(int i = 0; i < len; i++){
         to[i] = from[i];
     }
-
-    to[len] = '\0'; //Adding \0 to cut off the string
+    //cut of string at end of string
+    to[len] = '\0';
 }
 

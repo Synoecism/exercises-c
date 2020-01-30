@@ -27,8 +27,10 @@ void test();
 
 int main()
 {
-
+    //initialization of the queue
     initQue(que, MAX);
+
+    //just a test function to test the functions of the queue
     test();
 
     return 0;
@@ -36,12 +38,10 @@ int main()
 
 void initQue(int list[], int max)
 {
-
     int i, vacancyRepresentation = -1;
 
     for (i = 0; i < max; i++)
     {
-
         list[i] = vacancyRepresentation;
     }
 }

@@ -26,15 +26,10 @@ No code no exercise points!
 // ------Function declaration   ----------
 void create_random(int *tab);
 
-// Use pointer to fill the table
-
 void count_frequency(int *tab, int *freq);
-
-// Use pointer
 
 void draw_histogram(int *freq);
 
-//  Use pointer
 int main(void)
 {
     int table[MAX], n, i;
@@ -46,9 +41,12 @@ int main(void)
 
 void create_random(int *tab)
 {
-
     int i;
+
+    //seed random using time
     srand(time(0));
+
+    //loop over the array and add random values to the indicies
     for (i = 0; i < MAX; i++)
     {
         tab[i] = (rand() % (MAXNUMBER - MINNUMBER + 1)) + MINNUMBER;
@@ -58,6 +56,8 @@ void create_random(int *tab)
 void count_frequency(int *tab, int *freq)
 {
     int i, j, frequencyCounter = 0;
+
+    //loop over the array and count the number of occurences of any value that exists
     for (i = 0; i < MAXNUMBER; i++)
     {
         for (j = 0; j < MAX; j++)

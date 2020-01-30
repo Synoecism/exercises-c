@@ -37,6 +37,7 @@ int main()
 
     value = true;
 
+    //loop over the string and check if values from head and tail of string is equal
     for (int i = 0; i < j; i++)
     {
         if (word[i] != word[j])

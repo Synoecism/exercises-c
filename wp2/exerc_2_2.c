@@ -34,11 +34,13 @@ int main()
     //uses time to seed random generator
     srand(time(0));
 
+    //loop over the array and fill the array with random values
     for (int i = 0; i < n; i++)
     {
         array[i] = (rand() % (UPPER - LOWER + 1)) + LOWER;
     }
 
+    //lots of prints
     printf("\n The value of the label array (address) is: %pn \n", &array);
     printf("First integer in the array is (array[0]): %d \n", array[0]);
     printf("The size of an integer (number of bytes - array[0]) is: %lu \n", sizeof(array[0]));
@@ -47,11 +49,14 @@ int main()
 
     for (int i = 0; i < n; i++)
     {
-        int *pt = &array[i]; //Creating a pointer that points to the address where the value in the index of the array is stored 
+        //Creating a pointer that points to the address where the value in the index of the array is stored
+        int *pt = &array[i];
 
+        //Printing the value that the pointer points to (use asterix)
+        printf("Integer value of index %d: %d \n", i, *pt);
 
-        printf("Integer value of index %d: %d \n", i, *pt); //Printing the value that the pointer points to (use asterix)
-        printf("Double value of index %d: %4.2lf \n", i, (double) *pt);
+        //Printing the value (with double format) that the pointer points to (use asterix)
+        printf("Double value of index %d: %4.2lf \n", i, (double)*pt);
     }
 
     return 0;
