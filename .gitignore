@@ -20,6 +20,9 @@
 democodes.txt
 myfile.txt
 
+# mac files
+*.DS_Store
+
 # outfiles
 *.out
 
