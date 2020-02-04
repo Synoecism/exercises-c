@@ -169,7 +169,7 @@ void printfile(void)
     //Solution from the book: An Introduction to C Programming for Java Programmers by Mark Handley
 
     /* open the file for writing. R means opening the file for reading. The file must exist*/
-    file = fopen(filename, "r");
+    file = fopen(filename, "rb");
     if (file == NULL)
     {
         fprintf(stderr, "File %s could not be opened \n", filename);
@@ -206,7 +206,7 @@ void search_by_firstname(char *name)
     char temp[1024];
 
     //open file for reading
-    file = fopen(filename, "r");
+    file = fopen(filename, "rb");
     if (file == NULL)
     {
         //exit application if error with file reading
@@ -279,7 +279,7 @@ void append_file(PERSON *inrecord)
 {
 
     /* open the file for writing. a for append */
-    file = fopen(filename, "a");
+    file = fopen(filename, "ab");
 
     if (file == NULL)
     {

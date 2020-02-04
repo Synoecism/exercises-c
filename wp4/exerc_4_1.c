@@ -24,10 +24,8 @@ unsigned char positions; //Unsigned char to store all the positions
 
 int main(int argc, char **argv)
 {
-
     if (argc == 6) //Since the exerc_4_1.exe accounts as an argument
     {
-
         //Setting the different characters from the list of arguments as integers to prevent 'invalid operand to binary' error
         int engine_on = atoi(argv[1]);
         int gear_pos = atoi(argv[2]);
