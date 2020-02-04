@@ -143,7 +143,7 @@ void write_new_file(PERSON *inrecord)
     //Solution from the book: An Introduction to C Programming for Java Programmers by Mark Handley
 
     /* open the file for writing. w+ means create a empty file for writing to multiple values */
-    file = fopen(filename, "w+");
+    file = fopen(filename, "wb");
 
     if (file == NULL)
     {
