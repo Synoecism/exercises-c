@@ -200,7 +200,6 @@ void search_by_firstname(char *name)
     //prompt user
     puts("Enter 1 if you search for firstname, alt. 2 is you seach for familyname:");
 
-    char choice[MAX];
     char *ptr_choice = choice;
     getInput(ptr_choice);
     char temp[1024];
