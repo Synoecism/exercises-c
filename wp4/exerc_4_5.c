@@ -118,14 +118,17 @@ void loop()
   for (i = 0; i < 4; i++)
   {
 
+    //set value to 0 per each row from output port
     setPORTB(i);
 
+    //set current row value
     row = i;
 
     int numOfBytes = 4;
     int startPosition = 4;
 
     //get the values of PIND(4-7)
+    //https://www.geeksforgeeks.org/extract-k-bits-given-position-number/
     int extractedNumber = (((1 << numOfBytes) - 1) & (PIND >> startPosition));
 
     //check if keypad is pressed
@@ -135,7 +138,8 @@ void loop()
       col = getColumn(extractedNumber);
       if (col != 0)
       {
-        // get key value depending on row and column
+        // get key value depending on row and column 
+        // -1 : considering that the keypad matrix is [0-4][0-4]
         key = getKeyValue(row, (col - 1));
 
         //print key value
