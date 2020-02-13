@@ -16,13 +16,11 @@ No code no exercise points!
 */
 
 #include <avr/io.h>
-#include <util/delay.h>
 
 bool keyhit; 
 char key;
 int row = 0;
 int col;
-int pind_value;
 
 char keymap[4][4]=
 {
@@ -42,7 +40,6 @@ int getColumn(int ext)
   	//check which column is pressed
       switch(ext)
       {
-       
         //column 1 (7 representing 0111)
         case 7:
         	return 1;
@@ -85,6 +82,61 @@ void setPORTB(int i)
       }
 }
 
+void incrementRow()
+{
+  row += 1;
+  row = row % 4;
+}
+
+bool isRowInUse(int ext)
+{
+  //if extracted number is 15, then row is not in use
+  if(ext != 15)
+  {
+    return true;
+  } 
+  else 
+  {
+    return false;
+  }
+}
+
+// INTERRUPT REQUEST - WILL BE CALLED WHEN THERE IS AN INTERRUPRT
+void keyboardirs(void)
+{ 
+  int numOfBytes = 4;
+  int startPosition = 4;
+  
+  for(int i = 0; i < 4; i++)
+  {
+    //an unneccessary method
+    incrementRow();
+    
+    //activate row
+  	setPORTB(row);
+    
+    //get bit value (in decimal form) to read which column is in use
+  	//will only be called when row is activated
+  	int extractedNumber = (((1 << numOfBytes) - 1) & (PIND >> startPosition));
+        
+    //check if current row is in use/any key on row is pressed
+    if(isRowInUse(extractedNumber))
+    {
+      	//accept keyhit
+        keyhit = true;
+
+      	//-1 since extracting from double array ranging from [0-3][0-3]
+  		col = getColumn(extractedNumber)-1;
+       
+  		//get key value of keypad as matrix above
+  		key = getKeyValue(row,col);
+      
+        //break of loop necessary to exclude multiple key prints	
+      	break;
+    }
+  }
+}
+
 void setup()
 {
   //Init of terminal
@@ -98,52 +150,34 @@ void setup()
   //SETTING TO 0 MAKES THESE INPUT PINS
   DDRD = DDRD | B00000000; 
  
+  //similar to eventListener
   //inbuilt method (attachinterput())
   //inbuilt method (digitalPinToInterrupt())
   //FALLING = 0
   //RISING = 1
   //https://www.arduino.cc/reference/en/language/functions/external-interrupts/attachinterrupt/
-  attachInterrupt(digitalPinToInterrupt(2),keyboardirq,FALLING);
-}
-
-void incrementRow()
-{
-  row += 1;
-  row = row % 4;
+  attachInterrupt(digitalPinToInterrupt(2),keyboardirs,FALLING);
 }
 
 void loop()
 {
-  incrementRow();
-  setPORTB(row);
+  //set all outgoing ports to 0
+  PORTB = B00000000;
   
-  //continously check if keyhit is true
+    
+     //continously check if any key is hit
   if(keyhit)
   {
-    Serial.println(key);
+    	Serial.println(key);
+    	key = NULL;
   }
+  
+
   //set keyhit to false
   keyhit = false;
   
-  delay(50);
+  //delay not necessary due to break of forloop in interrupt method
+    
 }
-
-// THIS IS CALLED WHEN THERE IS AN INTERRUPT REQUEST (IE PRESS OF KEY ON KEYPAD)
-void keyboardirq(void)
-{
-  keyhit = true;
-  //do stuff
+  
  
-  int numOfBytes = 4;
-  int startPosition = 4;
-  
-  //get bit value (in decimal form) to read which column is in use
-  //will only be called when row is activated
-  int extractedNumber = (((1 << numOfBytes) - 1) & (PIND >> startPosition));
-  
-  //-1 since extracting from double array ranging from [0-3][0-3]
-  col = getColumn(extractedNumber)-1;
-  
-  //get key value of keypad as matrix above
-  key = getKeyValue(row,col);
-}
