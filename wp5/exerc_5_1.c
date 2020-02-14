@@ -14,7 +14,6 @@ Demonstration code: []
 Important
 No code no exercise points!
 */
-
 #include <avr/io.h>
 
 bool keyhit; 
@@ -137,6 +136,7 @@ void keyboardirs(void)
   }
 }
 
+
 void setup()
 {
   //Init of terminal
@@ -176,8 +176,7 @@ void loop()
   //set keyhit to false
   keyhit = false;
   
-  //delay not necessary due to break of forloop in interrupt method
-    
+  
 }
   
  
