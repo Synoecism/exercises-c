@@ -93,6 +93,7 @@ void printport( int portvalue){
         int numOfBytes = 4;
         int startPosition = 0;
         int extractedNumber = (((1 << numOfBytes) - 1) & (portvalue >> startPosition));
+        printf("PortValue is %X \n", portvalue);
 
 	    printf("The keyboard was pressed with key: %X  \n", extractedNumber);
 
