@@ -100,7 +100,7 @@ int main(int argc, char **argv)
         //assign the decimal value of unsigned char to gear_pos
         gear_pos = (int)nunc;
 
-        //reset nunc
+        //reset nunc for reuse
         nunc = 0;
 
         //move value from unc pos 2 to nunc pos 0

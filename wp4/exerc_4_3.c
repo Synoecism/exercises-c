@@ -61,7 +61,7 @@ void f_delay( int tenth_sec){
 
 unsigned char random_inport( void){
 	unsigned char inport = 0;
-	inport=  rand() % 256;
+	inport = rand() % 256;
 	return (inport);
 }
 
