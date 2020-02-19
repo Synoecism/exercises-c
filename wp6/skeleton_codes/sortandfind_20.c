@@ -69,6 +69,7 @@ int main() {
 void *runner(void *param) {
 	int c = 0, n=0;
 
+
 	for (c = 0; c < num_elems; c++) {
 		for(n=0; n<1000; n++); // To delay a bit 
 		array[c] = rand() % max_value;
