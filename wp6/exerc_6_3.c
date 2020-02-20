@@ -15,15 +15,14 @@ Important
 No code no exercise points!
 */
 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
 #include <stdbool.h>
-#include <signal.h>
 
 #define ML13_Status 0x0B10
 #define ML13_Control 0x0B00
-#define read 0x0B01
 
 // 0x28
 #define door_is_closed_and_someone_approaching 40
@@ -123,4 +122,10 @@ void startDelay()
         {
         }
     }
+}
+
+void attachInterrupt(void *param, unsigned char address){
+    //make sure that when any bit in the address is changed from 0-1
+    //call param / function
+    puts("attaching interrupt");
 }
