@@ -19,17 +19,24 @@ No code no exercise points!
 #include <stdlib.h>
 #include <pthread.h>
 #include <stdbool.h>
+#include <signal.h>
 
 #define ML13_Status 0x0B10
 #define ML13_Control 0x0B00
 #define read 0x0B01
 
-#define door_is_closed_and_someone_approaching 100
-#define door_is_opening_and_someone_approaching 101
-#define door_is_closing_and_someone_approaching 102
-#define door_is_open_and_someone_approaching 103
-#define door_is_now_open 104
-#define door_is_now_closed 105
+// 0x28
+#define door_is_closed_and_someone_approaching 40 
+// 0x88
+#define door_is_closing_and_someone_approaching 136 
+// 0x0C
+#define door_is_open_and_someone_approaching 12
+// 0x48
+#define door_is_opening_and_someone_approaching 72
+// 0x10
+#define door_is_now_open 16
+// 0x20
+#define door_is_now_closed 32
 
 #define open_the_door 0x01
 #define close_the_door 0x10
@@ -44,7 +51,9 @@ No code no exercise points!
 
 int whatIsTheStatus;
 int RISING = 1;
-extern void ML13_interrupt(void);
+void attachInterrupt(void *param, unsigned char address);
+
+void ML13_interrupt();
 void setup();
 void startDelay();
 
@@ -64,13 +73,13 @@ void setup(){
 
     //should be a macro
     //activate listener to listen for changes (0 -> 1) on bit 3,4,5
-    set_listener_irq(ML13_INTERRUPT, SENSOR_BITS ,RISING)
+    attachInterrupt(ML13_interrupt, sensor_bits);
 
 }
 
 // __interrupt does not work.
 
-extern void ML13_interrupt(void){
+void ML13_interrupt(){
 
 // read the status register
 whatIsTheStatus = read_status;
@@ -84,15 +93,15 @@ switch(whatIsTheStatus){
     case door_is_now_closed:
         puts("motor should be turned off");
         //do nothing
-    case door_is_closed_and_someone_is_approaching:
+    case door_is_closed_and_someone_approaching:
         set_control(open_the_door);
-    case door_is_open_and_someone_is_approaching:
+    case door_is_open_and_someone_approaching:
         //this basically resets the delay (see assumptions in startDelay method)
         startDelay();
         set_control(close_the_door);
-    case door_is_closing_and_someone_is_approaching:
-        set_control(open_the_door)
-    case door_is_opening_and_someone_is_approaching:
+    case door_is_closing_and_someone_approaching:
+        set_control(open_the_door);
+    case door_is_opening_and_someone_approaching:
         //do nothing - continue opening the door
     break;
 }
