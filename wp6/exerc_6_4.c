@@ -41,8 +41,6 @@ void *time_count(void *p_void_ptr)
     double start_time;
     double current_time;
 
-    printf("starting thread time_count %d \n", pthread_self());
-
     //get start time
     start_time = get_time_ms();
 
@@ -55,7 +53,7 @@ void *time_count(void *p_void_ptr)
         //get current time
         current_time = get_time_ms();
 
-        //check if there it's been a second
+        //check if timer is 1 second
         if ((current_time - start_time) >= SECOND)
         {
             //increment program time by 1
@@ -76,8 +74,6 @@ void *read_inport(void *p_void_ptr)
     double start_time;
     double current_time;
 
-    printf("starting thread read_inport %d \n", pthread_self());
-
     //get start time
     start_time = get_time_ms();
 
@@ -90,7 +86,7 @@ void *read_inport(void *p_void_ptr)
         //get current time
         current_time = get_time_ms();
 
-        //check if there it's been a second
+        //check if timer is five seconds
         if ((current_time - start_time) >= FIVE_SECONDS)
         {
             //print as per instruction
@@ -135,7 +131,7 @@ int main()
         //get current time
         current_time = get_time_ms();
 
-        //check if there's been a seconds
+        //check if timer is 1 second
         if ((current_time - start_time) >= SECOND)
         {
             //print time

@@ -9,4 +9,4 @@ jobs:
     
     steps:
     - name: compile-test
-      run: gcc ../exam/exc1.c -o e1
+      run: gcc exc1.c -o e1

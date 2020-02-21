@@ -71,11 +71,12 @@ int main()
         {
             printf("\n %d found at location %d.\n", search, middle + 1);
             break;
-        }else{
-        last = middle - 1;
-        middle = (first + last) / 2;
         }
-
+        else
+        {
+            last = middle - 1;
+            middle = (first + last) / 2;
+        }
     }
     if (first > last)
         printf("\n Not found! %d is not present in the list.\n", search);
@@ -88,4 +89,5 @@ void *runner(void *param)
     {
         for (n = 0; n < 1000; n++)
             ; // To delay a bit array[c] = rand() % max_value;}pthread_exit(0);
+    }
 }
