@@ -1,0 +1,12 @@
+name: C/C++ CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: compile-test
+      run: gcc ./exam/exc1.c -o e1
