@@ -18,73 +18,144 @@ No code no exercise points!
 #include <stdio.h>
 #include <sys/time.h>
 #include <pthread.h>
+#include <stdlib.h>
 
-void *time_count();
-void *read_inport();
+#define SECOND 1000
+#define FIVE_SECONDS 5000
 
-double get_time_ms(){
+double get_time_ms();
+void *time_count(void *p_void_ptr);
+void *read_inport(void *p_void_ptr);
+int program_time;
+
+double get_time_ms()
+{
     struct timeval t;
     gettimeofday(&t, NULL);
     return (t.tv_sec + (t.tv_usec / 1000000.0)) * 1000.0;
-    }
-
-
-int program_time;   // The global time, start value 0
-int main(){
-    // Start up the thread time_count.
-
-program_time = 0;
-    pthread_t time_count_id;
-    pthread_attr_t time_count_attr;
-
-    pthread_attr_init(&time_count_attr);
-    pthread_create(&time_count_id,&time_count_attr,time_count, &program_time);
-    
-    // Start up the thread read_inport.
-
-    pthread_t read_inport_id;
-    pthread_attr_t read_inport_attr;
-
-    pthread_attr_init(&read_inport_attr);
-    pthread_create(&read_inport_id,&read_inport_attr,read_inport, &program_time);
-
-    while ( program_time < 50){
-        //Print out system time every second.
-
-        printf("Time is: %d\n", program_time);
-    }
 }
 
-void *time_count() {
-    double startTime = get_time_ms();
+void *time_count(void *p_void_ptr)
+{
+    //localize time variables
+    double start_time;
+    double current_time;
 
-    while ( program_time < 50){
-        // Check system-time ( get_time_ms())
-        double currentTime = get_time_ms();
+    printf("starting thread time_count %d \n", pthread_self());
 
-        if(startTime - currentTime > 1000){
- printf("get time is: %f\n", currentTime);
-        // Increase program_time by one every second. 
-        program_time++;
-        startTime = currentTime;
+    //get start time
+    start_time = get_time_ms();
+
+    //localize pointer
+    int *program_time_ptr = (int *)p_void_ptr;
+
+    //run while program_time is less than 50
+    while (*program_time_ptr < 50)
+    {
+        //get current time
+        current_time = get_time_ms();
+
+        //check if there it's been a second
+        if ((current_time - start_time) >= SECOND)
+        {
+            //increment program time by 1
+            ++*program_time_ptr;
+
+            //reset start time to current time
+            start_time = current_time;
         }
-       
     }
-        // exit thread;
-        pthread_exit(0);
 
+    /* the function must return something - NULL will do */
+    return NULL;
 }
 
-void *read_inport( ){
-    while (program_time<50){
-        // Read Inport every 5 second.
-        // Simulate this just by print out a text : Reading Inport now)}
-        //printf("Reading inport now...");
-    }    
-        //Exit thread
-        pthread_exit(0);
+void *read_inport(void *p_void_ptr)
+{
+    //localize time variables
+    double start_time;
+    double current_time;
 
-} 
+    printf("starting thread read_inport %d \n", pthread_self());
 
+    //get start time
+    start_time = get_time_ms();
 
-// ------------End -------------------
+    //localize pointer
+    int *program_time_ptr = (int *)p_void_ptr;
+
+    //run while program_time is less than 50
+    while (*program_time_ptr < 50)
+    {
+        //get current time
+        current_time = get_time_ms();
+
+        //check if there it's been a second
+        if ((current_time - start_time) >= FIVE_SECONDS)
+        {
+            //print as per instruction
+            puts("Reading value now");
+
+            //reset start time to current time
+            start_time = current_time;
+        }
+    }
+
+    /* the function must return something - NULL will do */
+    return NULL;
+}
+
+int main()
+{
+    //localize time variables
+    double start_time;
+    double current_time;
+
+    // init of variables
+    program_time = 0;
+    pthread_t time_count_id;
+    pthread_t read_inport_id;
+
+    //thread creation
+    if (pthread_create(&time_count_id, NULL, time_count, &program_time))
+    {
+        perror("ERROR");
+    }
+    if (pthread_create(&read_inport_id, NULL, read_inport, &program_time))
+    {
+        perror("ERROR");
+    }
+
+    //get start time
+    start_time = get_time_ms();
+
+    //run til program_time is exhausted
+    while (program_time < 50)
+    {
+        //get current time
+        current_time = get_time_ms();
+
+        //check if there's been a seconds
+        if ((current_time - start_time) >= SECOND)
+        {
+            //print time
+            printf("Time is: %d\n", program_time);
+
+            //reset start time to current time
+            start_time = current_time;
+        }
+    }
+    
+    //thread joining
+    if (pthread_join(time_count_id, NULL))
+    {
+        fprintf(stderr, "Error joining thread\n");
+        return 2;
+    }
+    if (pthread_join(read_inport_id, NULL))
+    {
+        fprintf(stderr, "Error joining thread\n");
+        return 2;
+    }
+    
+}
