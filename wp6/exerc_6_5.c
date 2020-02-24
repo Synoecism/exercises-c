@@ -64,59 +64,81 @@ int main()
     // create thread for fetch
     pthread_create(&t, NULL, fetch, NULL);
 
+    //Run in infinity
     while (1)
     {
-        // do something
+        //puts("Main is executing");
     }
 }
 
 void *put()
 {
 
-    pthread_mutex_lock(&count_mutex);
     while (1)
     {
+        //lock the mutex
+        pthread_mutex_lock(&count_mutex);
+
+        //wait for trigger from other function
         pthread_cond_wait(&count_mutex, &not_full);
-        printf("inpos is : %d \t", inpos);
-        printf("char before %c \n", letter);
 
+        //set buffer index to letter
         buffer[inpos] = letter;
-                pthread_cond_signal(&not_empty);
 
+        //confirm store of letter
+        puts("Buffer store");
+
+        //trigger conditional signal, listened to by other thread
+        pthread_cond_signal(&not_empty);
+
+        //unlock the mutex
         pthread_mutex_unlock(&count_mutex);
+
+        //increment letter
         letter++;
+
+        //if end of alphabet, start at 'a'
         if (letter > 'z')
         {
             letter = 'a';
         }
 
+        //when inpos is 10, set to 0
         if (inpos < MAX - 1)
         {
             inpos++;
         }
         else
         {
-
             inpos = 0;
         }
-
     }
 }
 
 void *fetch()
 {
-    pthread_mutex_lock(&count_mutex);
 
     while (1)
     {
+        //lock the mutex
+        pthread_mutex_lock(&count_mutex);
 
+        //wait for conditional signal from other thread
         pthread_cond_wait(&count_mutex, &not_empty);
+
+        //get the character at index
         char charFound = buffer[outpos];
+
+        //confirm fetched charachter
+        printf("Buffer output: %c\n", charFound);
+
+        //send conditional signal 
         pthread_cond_signal(&not_full);
 
+        //unlock the mutex
         pthread_mutex_unlock(&count_mutex);
-        printf("char found: %c at index %d \n", charFound, outpos);
 
+        //if outpos = 10, start over at 0
         if (outpos < MAX - 1)
         {
             outpos++;
