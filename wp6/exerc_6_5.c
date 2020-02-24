@@ -41,8 +41,6 @@ int inpos = 0;
 // index for next character to be read ( fetch )
 int outpos = 0;
 
-bool isEmpty = true;
-
 // thread functions
 void *put();
 void *fetch();
@@ -66,9 +64,6 @@ int main()
     // create thread for fetch
     pthread_create(&t, NULL, fetch, NULL);
 
-    //lock current thread
-    pthread_mutex_lock(&count_mutex);
-
     while (1)
     {
         // do something
@@ -77,44 +72,52 @@ int main()
 
 void *put()
 {
+
+    pthread_mutex_lock(&count_mutex);
     while (1)
     {
         pthread_cond_wait(&count_mutex, &not_full);
+        printf("inpos is : %d \t", inpos);
+        printf("char before %c \n", letter);
 
         buffer[inpos] = letter;
-        //to increment from a - z
-        printf("%c \n", letter);
+                pthread_cond_signal(&not_empty);
+
+        pthread_mutex_unlock(&count_mutex);
         letter++;
         if (letter > 'z')
         {
             letter = 'a';
-
-            pthread_cond_signal(&not_empty);
-            if (inpos < MAX)
-            {
-                inpos++;
-            }
-            else
-            {
-                inpos = 0;
-            }
         }
-        //do something
+
+        if (inpos < MAX - 1)
+        {
+            inpos++;
+        }
+        else
+        {
+
+            inpos = 0;
+        }
+
     }
 }
 
 void *fetch()
 {
+    pthread_mutex_lock(&count_mutex);
 
     while (1)
     {
 
         pthread_cond_wait(&count_mutex, &not_empty);
-
         char charFound = buffer[outpos];
+        pthread_cond_signal(&not_full);
 
+        pthread_mutex_unlock(&count_mutex);
         printf("char found: %c at index %d \n", charFound, outpos);
-        if (outpos < MAX)
+
+        if (outpos < MAX - 1)
         {
             outpos++;
         }
@@ -122,8 +125,5 @@ void *fetch()
         {
             outpos = 0;
         }
-
-        pthread_cond_signal(&not_full);
-        // do something
     }
 }
