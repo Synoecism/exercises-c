@@ -47,6 +47,19 @@ void *fetch();
 int main()
 {
     int i;
+    puts("Main thread starting...");
+
+    //init thread
+    pthread_t t;
+
+    // create thread for put
+    pthread_create(&t, NULL, put, NULL);
+
+    // create thread for fetch
+    pthread_create(&t, NULL, fetch, NULL);
+
+    //lock current thread
+    pthread_mutex_lock( &count_mutex );
 
     while (1)
     {
