@@ -58,13 +58,16 @@ int main()
     // create thread for fetch
     pthread_create(&t, NULL, fetch, NULL);
 
-    //lock current thread
-    pthread_mutex_lock( &count_mutex );
+    //init lock for current thread
+    pthread_mutex_init( &count_mutex, NULL);
 
     while (1)
     {
         // do something
     }
+
+    //unlock current thread
+    pthread_mutex_unlock( & count_mutex );
 }
 
 void *put()
