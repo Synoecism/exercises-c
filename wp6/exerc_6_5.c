@@ -67,7 +67,17 @@ int main()
     //Run in infinity
     while (1)
     {
-        //puts("Main is executing");
+        //lock the mutex
+        pthread_mutex_lock(&count_mutex);
+
+        //wait for conditional signal from other thread
+        pthread_cond_wait(&count_mutex, &not_full);
+
+        //confirm main thread
+        puts("Main is executing");
+
+        //unlock the mutex
+        pthread_mutex_unlock(&count_mutex);
     }
 }
 
