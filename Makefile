@@ -3,5 +3,5 @@ SRC = $(wildcard */*.c)
 
 compile_all:
 	# compile all the files as such (gcc example.c)
-	$(foreach var, $(SRC), gcc $(var);)
+	$(foreach var, $(SRC), gcc $(var) || exit;)
 
