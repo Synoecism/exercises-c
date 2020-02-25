@@ -39,7 +39,7 @@ int main()
     fgets(userInput, 100, stdin)
 
     //validate user input (if atoi returns 0; its' NaN)
-    int inputNumber = atoi(userInput);
+    int inputNumber = atoi(userInput)
 
     //continue if inputNumber is numbers/digits
     if (inputNumber != 0)
