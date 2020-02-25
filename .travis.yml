@@ -5,6 +5,7 @@ compiler: gcc
 
 # run the script
 script:
+  - fail_fast : true
   # go to repo source directory
   - cd ${TRAVIS_BUILD_DIR} 
   # call makefile that 
