@@ -10,5 +10,5 @@ os:
 script:
   # go to repo source directory
   - cd ${TRAVIS_BUILD_DIR} 
-  # call makefile that 
+  # call makefile function to compile all c files 
   - make -f Makefile compile_all
