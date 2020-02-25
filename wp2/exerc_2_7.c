@@ -119,7 +119,7 @@ int controlDigit(const char *persnr)
     ctrldigit = (float)sum / 10;
 
     //round up to nearest integer (2.3 -> 3.0)
-    ctrldigit = ceil(ctrldigit);
+    //ctrldigit = ceil(ctrldigit);
 
     //multiply and cast to integer (3.0 -> 30)
     ctrldigit = ctrldigit * 10;
