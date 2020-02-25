@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/KarlWestgardh/exercises-c.svg?branch=master)](https://travis-ci.org/KarlWestgardh/exercises-c)
+
 # exercises-c
 Learning C &lt;3
 
