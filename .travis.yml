@@ -7,5 +7,5 @@ compiler: gcc
 script:
   # go to repo source directory
   - cd ${TRAVIS_BUILD_DIR} 
-  # call makefile
-  - make
+  # call makefile that 
+  - make -f Makefile compile_all
