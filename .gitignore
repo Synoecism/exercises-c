@@ -16,6 +16,9 @@
 # exefiles
 *.exe
 
+#unignore makefile
+!Makefile
+
 # exercise codes file and myfile.txt
 democodes.txt
 myfile.txt
