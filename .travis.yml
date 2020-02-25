@@ -2,8 +2,9 @@
 language: c
 # set compiler of ci
 compiler: gcc
-
-fail_fast : true
+# set os of ci
+os: 
+  - osx
 
 # run the script
 script:
