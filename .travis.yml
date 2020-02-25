@@ -1,7 +1,11 @@
+# set language of ci
 language: c
+# set compiler of ci
 compiler: gcc
 
+# run the script
 script:
+  # go to repo source directory
   - cd ${TRAVIS_BUILD_DIR} 
-  - cd wp1
-  - gcc exerc_1_1.c -o exerc_1_1
+  # call makefile
+  - make
