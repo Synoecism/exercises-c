@@ -57,7 +57,7 @@ int main(int argc, char **argv)
         printf("Program only compares two strings.");
     }
 
-    return 0
+    return 0;
 }
 
 bool stringCompare(char *first, char *second)
