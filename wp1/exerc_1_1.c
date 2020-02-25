@@ -5,7 +5,7 @@
 int main()
 {
     bool x = false;
-    printf("Please select an option between 1-5! \n");
+    printf("Please select an option between 1-5! \n")
     while(!x)
     {
         //wait for input
