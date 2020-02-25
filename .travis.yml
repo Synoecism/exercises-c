@@ -3,9 +3,10 @@ language: c
 # set compiler of ci
 compiler: gcc
 
+fail_fast : true
+
 # run the script
 script:
-  - fail_fast : true
   # go to repo source directory
   - cd ${TRAVIS_BUILD_DIR} 
   # call makefile that 
