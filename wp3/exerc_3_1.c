@@ -42,7 +42,7 @@ typedef struct
 char arrayOfInput[21];
 char userInput[1024];
 int xValueToPass = 0;
-int yValueToPass = 0
+int yValueToPass = 0;
 
 //REF: https://stackoverflow.com/questions/3168306/print-text-instead-of-value-from-c-enum
 
