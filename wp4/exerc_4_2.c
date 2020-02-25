@@ -92,7 +92,7 @@ int main(int argc, char **argv)
         nunc |= (((unc >> 4) & 0x01) << 0);
 
         //move value from unc pos 5 to nunc pos 1
-        nunc |= (((unc >> 5) & 0x01) << 1);
+        nunc |= (((unc >> 5) & 0x01) << 1)
 
         //move value from unc pos 4 to nunc pos 0
         nunc |= (((unc >> 6) & 0x01) << 2);
