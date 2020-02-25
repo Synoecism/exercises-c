@@ -7,7 +7,7 @@ int main()
 {
     char str[MAX]; 
     int len = 0;
-    int count = 1
+    int count = 1;
 
     fgets(str, MAX, stdin); 
     len = strlen(str);
