@@ -53,11 +53,6 @@ int main()
     pthread_t t;
     pthread_t t2;
 
-    //init of conditions and locks
-    pthread_mutex_init(&count_mutex, NULL);
-    pthread_cond_init(&not_empty, NULL);
-    pthread_cond_init(&not_full, NULL);
-
     // create thread for put
     pthread_create(&t, NULL, put, NULL);
 
@@ -67,25 +62,69 @@ int main()
     //Run in infinity
     while (1)
     {
-        puts("In main thread");
+        pthread_mutex_lock(&count_mutex);
+        if (count == 0)
+        {
+            count++;
+
+            //wait for conditional signal from other thread
+            pthread_cond_wait(&not_full, &count_mutex);
+
+            puts("In main thread");
+            count--;
+        }
+        pthread_mutex_unlock(&count_mutex);
     }
 }
 
 void *put()
 {
+    pthread_mutex_lock(&count_mutex);
 
-    while (1)
+    if (count == 0)
     {
+        while (1)
+        {
+            count++;
 
-        puts("In put thread");
+            //increment letter
+            letter++;
+
+            //if end of alphabet, start at 'a'
+            if (letter > 'z')
+            {
+                letter = 'a';
+            }
+
+            //when inpos is 10, set to 0
+            if (inpos < MAX - 1)
+            {
+                inpos++;
+            }
+            else
+            {
+                inpos = 0;
+            }
+
+            puts("In put thread");
+            count--;
+        }
     }
+    pthread_mutex_unlock(&count_mutex);
 }
 
 void *fetch()
 {
+    pthread_mutex_lock(&count_mutex);
 
-    while (1)
+    if (count == 0)
     {
-        puts("In fetch thread");
+        while (1)
+        {
+            count++;
+            puts("In fetch thread");
+            count--;
+        }
     }
+    pthread_mutex_unlock(&count_mutex);
 }

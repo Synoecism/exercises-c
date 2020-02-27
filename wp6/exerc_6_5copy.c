@@ -53,11 +53,6 @@ int main()
     //init thread
     pthread_t t;
 
-    //init of conditions and locks
-    pthread_mutex_init(&count_mutex, NULL);
-    pthread_cond_init(&not_empty, NULL);
-    pthread_cond_init(&not_full, NULL);
-
     // create thread for put
     pthread_create(&t, NULL, put, NULL);
 
@@ -67,6 +62,9 @@ int main()
     //Run in infinity
     while (1)
     {
+        //wait for a signal
+        pthread_cond_wait(&not_full, &count_mutex);
+
         //confirm main thread
         puts("Main is executing");
     }
@@ -77,15 +75,26 @@ void *put()
 
     while (1)
     {
+        // if count == 0, buffer is empty
+        if(count == 0){
+            //wait for trigger from other function
+        pthread_cond_wait(&not_full, &count_mutex);
+        }
 
-        //wait for trigger from other function
-        pthread_cond_wait(&count_mutex, &not_full);
+        //lock the access to global variables
+        pthread_mutex_lock(&count_mutex);
 
         //set buffer index to letter
         buffer[inpos] = letter;
 
         //confirm store of letter
         puts("Buffer store");
+
+        //increment count
+        count++;
+
+        //unlock the access to global variables
+        pthread_mutex_unlock(&count_mutex);
 
         //trigger conditional signal, listened to by other thread
         pthread_cond_signal(&not_empty);
@@ -116,9 +125,14 @@ void *fetch()
 
     while (1)
     {
+        //if count not zero, then there are values in the buffer
+        if(count != 0){
+            //wait for conditional signal from other thread
+            pthread_cond_wait(&not_empty, &count_mutex);
 
-        //wait for conditional signal from other thread
-        pthread_cond_wait(&count_mutex, &not_empty);
+        }
+
+        
 
         //get the character at index
         char charFound = buffer[outpos];

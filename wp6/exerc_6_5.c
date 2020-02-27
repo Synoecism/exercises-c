@@ -48,35 +48,32 @@ void *fetch();
 int main()
 {
     int i;
-    puts("Main thread starting...");
 
     //init thread
     pthread_t t;
-
-    //init of conditions and locks
-    pthread_mutex_init(&count_mutex, NULL);
-    pthread_cond_init(&not_empty, NULL);
-    pthread_cond_init(&not_full, NULL);
+    pthread_t t2;
 
     // create thread for put
     pthread_create(&t, NULL, put, NULL);
 
     // create thread for fetch
-    pthread_create(&t, NULL, fetch, NULL);
+    pthread_create(&t2, NULL, fetch, NULL);
 
     //Run in infinity
     while (1)
     {
-        //lock the mutex
         pthread_mutex_lock(&count_mutex);
 
-        //wait for conditional signal from other thread
-        pthread_cond_wait(&count_mutex, &not_full);
 
-        //confirm main thread
-        puts("Main is executing");
+        if (count == 2)
+        {
 
-        //unlock the mutex
+            //confirm main thread
+            puts("Main is executing");
+
+            //reset count
+            count = 0;
+        }
         pthread_mutex_unlock(&count_mutex);
     }
 }
@@ -86,42 +83,45 @@ void *put()
 
     while (1)
     {
-        //lock the mutex
+        //lock access to global variables
         pthread_mutex_lock(&count_mutex);
 
-        //wait for trigger from other function
-        pthread_cond_wait(&count_mutex, &not_full);
+        if (count == 0)
+        {
+            //set buffer index to letter
+            buffer[inpos] = letter;
 
-        //set buffer index to letter
-        buffer[inpos] = letter;
+            //confirm store of letter
+            puts("Buffer store");
 
-        //confirm store of letter
-        puts("Buffer store");
+            //increment letter
+            letter++;
 
-        //trigger conditional signal, listened to by other thread
+            //if end of alphabet, start at 'a'
+            if (letter > 'z')
+            {
+                letter = 'a';
+            }
+
+            //when inpos is 10, set to 0
+            if (inpos < MAX-1)
+            {
+                inpos++;
+            }
+            else
+            {
+                inpos = 0;
+            }
+
+            //increment count
+            count++;
+        }
+
+        //send signal to other thread
         pthread_cond_signal(&not_empty);
 
-        //unlock the mutex
+        //unlock access to global variables
         pthread_mutex_unlock(&count_mutex);
-
-        //increment letter
-        letter++;
-
-        //if end of alphabet, start at 'a'
-        if (letter > 'z')
-        {
-            letter = 'a';
-        }
-
-        //when inpos is 10, set to 0
-        if (inpos < MAX - 1)
-        {
-            inpos++;
-        }
-        else
-        {
-            inpos = 0;
-        }
     }
 }
 
@@ -130,32 +130,38 @@ void *fetch()
 
     while (1)
     {
-        //lock the mutex
+        //lock access to global variables
         pthread_mutex_lock(&count_mutex);
 
-        //wait for conditional signal from other thread
-        pthread_cond_wait(&count_mutex, &not_empty);
+        //wait for signal from other thread
+        pthread_cond_wait(&not_empty, &count_mutex);
 
-        //get the character at index
-        char charFound = buffer[outpos];
-
-        //confirm fetched charachter
-        printf("Buffer output: %c\n", charFound);
-
-        //send conditional signal 
-        pthread_cond_signal(&not_full);
-
-        //unlock the mutex
-        pthread_mutex_unlock(&count_mutex);
-
-        //if outpos = 10, start over at 0
-        if (outpos < MAX - 1)
+        if (count == 1)
         {
-            outpos++;
-        }
-        else
-        {
-            outpos = 0;
+            //get the character at index
+            char charFound = buffer[outpos];
+
+            //confirm fetched charachter
+            printf("Buffer output: %c\n", charFound);
+
+            //if outpos = 10, start over at 0 needs to be minus 1
+            if (outpos < MAX-1)
+            {
+                outpos++;
+            }
+            else
+            {
+                outpos = 0;
+            }
+
+            //increment count
+            count++;
+
+            //send conditional signal
+            pthread_cond_signal(&not_full);
+
+            //unlock the mutex
+            pthread_mutex_unlock(&count_mutex);
         }
     }
 }
