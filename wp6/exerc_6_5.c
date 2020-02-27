@@ -62,19 +62,8 @@ int main()
     //Run in infinity
     while (1)
     {
-        pthread_mutex_lock(&count_mutex);
-
-
-        if (count == 2)
-        {
-
-            //confirm main thread
-            puts("Main is executing");
-
-            //reset count
-            count = 0;
-        }
-        pthread_mutex_unlock(&count_mutex);
+        //confirm main thread
+        puts("Main is executing");
     }
 }
 
@@ -86,36 +75,39 @@ void *put()
         //lock access to global variables
         pthread_mutex_lock(&count_mutex);
 
-        if (count == 0)
+        //if count is not zero, wait
+        if (count != 0)
         {
-            //set buffer index to letter
-            buffer[inpos] = letter;
-
-            //confirm store of letter
-            puts("Buffer store");
-
-            //increment letter
-            letter++;
-
-            //if end of alphabet, start at 'a'
-            if (letter > 'z')
-            {
-                letter = 'a';
-            }
-
-            //when inpos is 10, set to 0
-            if (inpos < MAX-1)
-            {
-                inpos++;
-            }
-            else
-            {
-                inpos = 0;
-            }
-
-            //increment count
-            count++;
+            pthread_cond_wait(&not_full, &count_mutex);
         }
+
+        //set buffer index to letter
+        buffer[inpos] = letter;
+
+        //confirm store of letter
+        puts("Buffer store");
+
+        //increment letter
+        letter++;
+
+        //if end of alphabet, start at 'a'
+        if (letter > 'z')
+        {
+            letter = 'a';
+        }
+
+        //when inpos is 10, set to 0
+        if (inpos < MAX - 1)
+        {
+            inpos++;
+        }
+        else
+        {
+            inpos = 0;
+        }
+
+        //increment count
+        count++;
 
         //send signal to other thread
         pthread_cond_signal(&not_empty);
@@ -133,35 +125,35 @@ void *fetch()
         //lock access to global variables
         pthread_mutex_lock(&count_mutex);
 
-        //wait for signal from other thread
-        pthread_cond_wait(&not_empty, &count_mutex);
-
-        if (count == 1)
+        //if count is zero, wait
+        if (count == 0)
         {
-            //get the character at index
-            char charFound = buffer[outpos];
-
-            //confirm fetched charachter
-            printf("Buffer output: %c\n", charFound);
-
-            //if outpos = 10, start over at 0 needs to be minus 1
-            if (outpos < MAX-1)
-            {
-                outpos++;
-            }
-            else
-            {
-                outpos = 0;
-            }
-
-            //increment count
-            count++;
-
-            //send conditional signal
-            pthread_cond_signal(&not_full);
-
-            //unlock the mutex
-            pthread_mutex_unlock(&count_mutex);
+            pthread_cond_wait(&not_empty, &count_mutex);
         }
+
+        //get the character at index
+        char charFound = buffer[outpos];
+
+        //confirm fetched charachter
+        printf("Buffer output: %c\n", charFound);
+
+        //if outpos = 10, start over at 0 needs to be minus 1
+        if (outpos < MAX - 1)
+        {
+            outpos++;
+        }
+        else
+        {
+            outpos = 0;
+        }
+
+        //increment count
+        count--;
+
+        //send conditional signal
+        pthread_cond_signal(&not_full);
+
+        //unlock the mutex
+        pthread_mutex_unlock(&count_mutex);
     }
 }
