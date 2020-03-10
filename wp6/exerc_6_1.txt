@@ -1,6 +1,6 @@
 /*
 File name: exerc_x_x.c (or cpp)
-Date: YYYY-MM-DD
+Date: 2020-03-10
 Group nr 1
 Members that contribute to the solutions
 Emanuel Dellsén
@@ -13,15 +13,19 @@ NONE
 Demonstration code: []
 Important
 No code no exercise points!
+*/
 
-Q1: Two, one of those two is the "main thread" that is created with every program execution and the other one is created at line 25; "pthread_create(&tid, &attr, runner, NULL);", but initialized in line 16; "pthread_t tid;".
+Q1: Two, one of those two is the "main thread" that is created with every program execution and the other one is created at line 25; 
+"pthread_create(&tid, &attr, runner, NULL);", but initialized in line 16; "pthread_t tid;".
 
-
-Q2: Line 16: Initializing a variable called "tid" of datatype pthread_t. This is where we declare the variabe used to identify a pthread.
+Q2: Line 16: Initializing a variable called "tid" of datatype pthread_t. This is where we declare the variable used to identify a pthread.
     Line 17: Initializing a variable called "attr" of datatype pthread_attr_t. This a variable where we store the attributes of a pthread.
     Line 20: The pthread_attr_init() function initializes the thread attributes object pointed to by attr with default attribute values.
-    Line 25: This is where we create a new thread with the id declared in line 16 and the attributes declared in line 17. We also use the function "runner" to intialize the array declared on line 9 and fill all the indicies with random values and after this is done the pthread is terminated, line 77.
+    Line 25: This is where we create a new thread with the id declared in line 16 and the attributes declared in line 17. 
+            We also use the function "runner" to intialize the array declared on line 9 and fill all the indicies with random values and after 
+            this is done the pthread is terminated, line 77.
     Line 26: This method puts the calling thread on hold until the specified thread(by "tid") is terminated.
-Q3: One parameter in this case, the reason why we want a parameter like this is to have a possibility to pass something generic into the method. The one parameter passed in our case is "NULL" which can be seen as both nothing and something.
+Q3: One parameter in this case, the reason why we want a parameter like this is to have a possibility to pass something generic into the method. 
+    The one parameter passed in our case is "NULL".
 Q4: Because it is a global decleration of that variable.
 Q5: We lose control of the order in which the threads are executed.
